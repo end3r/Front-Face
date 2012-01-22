@@ -1,0 +1,14 @@
+* { margin: 0; padding: 0; }
+body { font: normal 14px Verdana; background: #fff; }
+ul { list-style-type: none; }
+
+#board { margin: 0 auto; width: 700px; border: 1px solid red; }
+#board p { width: 100px; height: 100px; display: inline-block; margin: 10px 0 0 10px; background: #ccc url(../img/people.jpg) 0px 0px no-repeat; cursor: pointer; border-radius: 10px; /*text-indent: -5000px;*/ }
+#board p.item0 { background-position: -150px 0; }
+#board p.item1 { background-position: -300px 0; }
+#board p.item2 { background-position: -450px 0; }
+#board p.item3 { background-position: -600px 0; }
+#board p.item4 { background-position: -750px 0; }
+#board p:hover { box-shadow: 0 0 5px red; }
+#panel #start { background: #ddd; cursor: pointer; border-radius: 5px; padding: 5px 10px; display: inline-block; margin-left: 15px; border: 1px solid transparent; }
+#panel #start:hover { border: 1px solid #aaa; }
