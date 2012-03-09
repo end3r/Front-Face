@@ -77,10 +77,7 @@ GAME.CardClick = function(card) {
 
 			if(GAME._visible[0].item_id == GAME._visible[1].item_id) { // the same card ID
 				// ask question - if answered correct, add points, if not - don't
-				//GAME.$id('board').style.display = 'none';
-				GAME.$id('formBg').style.display = 'block';
-				GAME.$id('formBg').innerHTML = '<div><p>[FORM with a question about the clicked person]</p></div>';
-				GAME.$id('modalBg').style.display = 'block';
+				GAME.Form(item);
 
 				console.log('CORRECT!');
 				GAME._points+=2;
@@ -102,6 +99,66 @@ GAME.CardClick = function(card) {
 			GAME._active = false;
 		}
 	}
+};
+
+GAME.Form = function(item) {
+	var questions = ['website','topic of the talk','trade'],
+		questionNames = ['site','topic','trade'],
+		question = Math.floor(Math.random()*3);
+
+	var randomTable = [];
+	function oc(a)
+	{
+	  var o = {};
+	  for(var i=0;i<a.length;i++)
+	  {
+	    o[a[i]]='';
+	  }
+	  return o;
+	}
+
+	// get 3 different values - the proper one and two random
+	for(var i=0; i<3; i++) {
+		do {
+			var random = Math.floor(Math.random()*(GAME._board.length/2));
+			console.log('Random: '+random+' from all '+(GAME._board.length/2)+' elements.');
+		} while(random in oc(randomTable));
+		randomTable.push(random);
+	}
+
+	console.log('Random table:');
+	console.dir(randomTable);
+
+	var formHTML = ""+
+	"<div>"+
+		"<p>Let's see how well You know <strong>"+item.name+"</strong>!</p>"+
+		"<p>What's the "+questions[question]+" of this person?</p>"+
+		"<p><form>"+
+			"<input type='radio' name='q' value='one' id='radio1' /> <label for='radio1'>"+item[questionNames[question]]+"</label> "+
+			"<input type='radio' name='q' value='two' id='radio2' /> <label for='radio2'>"+GAME._board[Math.floor(Math.random()*5)][questionNames[question]]+"</label> "+
+			"<input type='radio' name='q' value='three' id='radio3' /> <label for='radio3'>"+GAME._board[Math.floor(Math.random()*5)][questionNames[question]]+"</label> "+
+		"</form></p>"+
+	"</div>";
+
+	GAME.$id('formBg').style.display = 'block';
+	GAME.$id('modalBg').style.display = 'block';
+	GAME.$id('formBg').innerHTML = formHTML;
+
+//	GAME.$id('radio1').onclick = function() { GAME.CheckAnswer(this); };
+//	GAME.$id('radio2').onclick = function() { GAME.CheckAnswer(this); };
+//	GAME.$id('radio3').onclick = function() { GAME.CheckAnswer(this); };
+	document.getElementsByTagName('input').onclick = function() { GAME.CheckAnswer(this); };
+
+	console.dir(item);
+};
+
+GAME.CheckAnswer = function(tabs) {
+	//
+//	for (var i = 0; i < tabs.length; i++) {
+//		tabs[i]
+//	};
+	console.dir(tabs);
+//	alert('wybrales '+ID.id+'!');
 };
 
 GAME.Timer = function(time) {

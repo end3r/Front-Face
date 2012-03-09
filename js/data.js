@@ -3,7 +3,7 @@ GAME.data = [
 	{
 		id: 1,
 		name: 'Alex Giron',
-		site: 'nclud.com',
+		site: 'nclud.com1',
 		trade: 'css',
 		topic: 'Designing with interactions to interacting with designs'
 	},
@@ -24,7 +24,7 @@ GAME.data = [
 	{
 		id: 4,
 		name: 'David DeSandro',
-		site: 'nclud.com',
+		site: 'nclud.com2',
 		trade: 'iOS',
 		topic: 'Mobile Safari: Bring your machete'
 	},
