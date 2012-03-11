@@ -38,7 +38,7 @@ GAME.HideCards = function() {
 	myItem2.className = '';
 	myItem2.style.backgroundPosition = '';
 
-	console.log('HIDE CARDS!');
+	//console.log('HIDE CARDS!');
 	GAME._active = true;
 	myItem1.onclick = function() { GAME.CardClick(this); };
 	myItem2.onclick = function() { GAME.CardClick(this); };
@@ -56,7 +56,7 @@ GAME.DisableCards = function() {
 	myItem2.className = 'disabled';
 	myItem2.onclick = function() {};
 
-	console.log('DISABLE CARDS!');
+	//console.log('DISABLE CARDS!');
 	GAME._active = true;
 };
 
@@ -65,7 +65,7 @@ GAME.CardClick = function(card) {
 		var card_id = card.id.split('_')[1],
 			item = GAME._board[card_id];
 
-		console.log('CLICKED card number '+card_id+' with ID = '+item.id+', and name: '+item.name);
+		//console.log('CLICKED card number '+card_id+' with ID = '+item.id+', and name: '+item.name);
 
 		card.onclick = function() {};
 
@@ -79,8 +79,8 @@ GAME.CardClick = function(card) {
 				// ask question - if answered correct, add points, if not - don't
 				GAME.Form(item);
 
-				console.log('CORRECT!');
-				GAME._points+=2;
+				//console.log('CORRECT!');
+				//GAME._points+=2;
 				if(GAME._points == GAME._board.length) {
 					//
 					setTimeout(GAME.DisableCards,1);
@@ -91,8 +91,7 @@ GAME.CardClick = function(card) {
 				}
 			}
 			else {
-				//
-				console.log('MISSED!');
+				//console.log('MISSED!');
 				setTimeout(GAME.HideCards,1000);
 			}
 
@@ -102,41 +101,58 @@ GAME.CardClick = function(card) {
 };
 
 GAME.Form = function(item) {
-	var questions = ['website','topic of the talk','trade'],
-		questionNames = ['site','topic','trade'],
-		question = Math.floor(Math.random()*3);
-
-	var randomTable = [];
-	function oc(a)
-	{
-	  var o = {};
-	  for(var i=0;i<a.length;i++)
-	  {
-	    o[a[i]]='';
-	  }
-	  return o;
-	}
+	var question = {
+		txt: ['website','topic of the talk','trade'],
+		id: ['site','topic','trade'],
+		nr: Math.floor(Math.random()*3),
+		tab: []
+	};
 
 	// get 3 different values - the proper one and two random
-	for(var i=0; i<3; i++) {
+	var subject = question.id[question.nr],
+		answerTable = [];
+
+	console.log('item[subject]: '+item[subject]);
+
+	// proper
+	answerTable.push(item[subject]);
+
+	// random
+	for(var i=0; i<2; i++) {
 		do {
 			var random = Math.floor(Math.random()*(GAME._board.length/2));
 			console.log('Random: '+random+' from all '+(GAME._board.length/2)+' elements.');
-		} while(random in oc(randomTable));
-		randomTable.push(random);
+			// if random nie ma w tabeli, to dodaj
+			var newR = false;
+			console.log('GAME.data[random][subject]: '+GAME.data[random][subject]);
+			for (var j = 0; j < answerTable.length; j++) {
+				if(GAME.data[random][subject] != answerTable[j]) {
+					console.log('answerTable[j]: '+answerTable[j]);
+					newR = true;
+				}
+			};
+		} while(newR == false);
+		answerTable.push(GAME.data[random][subject]);
 	}
 
-	console.log('Random table:');
-	console.dir(randomTable);
+	console.log('-----');
+	console.dir(answerTable);
+	console.log('-----');
+
+//	var answerTable = [
+//		item[questionNames[question]],
+//		GAME._board[Math.floor(Math.random()*5)][questionNames[question]],
+//		GAME._board[Math.floor(Math.random()*5)][questionNames[question]]
+//	];
 
 	var formHTML = ""+
 	"<div>"+
 		"<p>Let's see how well You know <strong>"+item.name+"</strong>!</p>"+
-		"<p>What's the "+questions[question]+" of this person?</p>"+
+		"<p id='message'>What's the "+question.txt[question.nr]+" of this person?</p>"+
 		"<p><form>"+
-			"<input type='radio' name='q' value='one' id='radio1' /> <label for='radio1'>"+item[questionNames[question]]+"</label> "+
-			"<input type='radio' name='q' value='two' id='radio2' /> <label for='radio2'>"+GAME._board[Math.floor(Math.random()*5)][questionNames[question]]+"</label> "+
-			"<input type='radio' name='q' value='three' id='radio3' /> <label for='radio3'>"+GAME._board[Math.floor(Math.random()*5)][questionNames[question]]+"</label> "+
+			"<input type='radio' name='q' value='"+answerTable[0]+"' id='radio1' /> <label for='radio1'>"+answerTable[0]+"</label> "+
+			"<input type='radio' name='q' value='"+answerTable[1]+"' id='radio2' /> <label for='radio2'>"+answerTable[1]+"</label> "+
+			"<input type='radio' name='q' value='"+answerTable[2]+"' id='radio3' /> <label for='radio3'>"+answerTable[2]+"</label> "+
 		"</form></p>"+
 	"</div>";
 
@@ -144,21 +160,34 @@ GAME.Form = function(item) {
 	GAME.$id('modalBg').style.display = 'block';
 	GAME.$id('formBg').innerHTML = formHTML;
 
-//	GAME.$id('radio1').onclick = function() { GAME.CheckAnswer(this); };
-//	GAME.$id('radio2').onclick = function() { GAME.CheckAnswer(this); };
-//	GAME.$id('radio3').onclick = function() { GAME.CheckAnswer(this); };
-	document.getElementsByTagName('input').onclick = function() { GAME.CheckAnswer(this); };
+	GAME.$id('radio1').onclick = function() { GAME.CheckAnswer(this,item[subject]); };
+	GAME.$id('radio2').onclick = function() { GAME.CheckAnswer(this,item[subject]); };
+	GAME.$id('radio3').onclick = function() { GAME.CheckAnswer(this,item[subject]); };
+	//document.getElementsByTagName('input').onclick = function() { GAME.CheckAnswer(this); };
 
 	console.dir(item);
 };
 
-GAME.CheckAnswer = function(tabs) {
-	//
-//	for (var i = 0; i < tabs.length; i++) {
-//		tabs[i]
-//	};
-	console.dir(tabs);
-//	alert('wybrales '+ID.id+'!');
+GAME.CheckAnswer = function(chosen,correct) {
+	//console.log('radio checked: '+radio.value);
+	if(chosen.value == correct) {
+		GAME.$id('message').innerHTML = '<span style="color: green;">Congrats, +1 point!</span> <b id="continue">Click to continue!</b>';
+		chosen.style.background = 'green';
+		GAME._points += 10;
+		GAME.$id('points').innerHTML = GAME._points;
+	}
+	else {
+		GAME.$id('message').innerHTML = '<span style="color: red;">Wrong, no points this time, try again...</span> <b id="continue">Click to continue!</b>';
+		chosen.style.background = 'red';
+	}
+	GAME.$id('continue').onclick = function() {
+		GAME.$id('formBg').style.display = 'none';
+		GAME.$id('modalBg').style.display = 'none';
+		console.log('points/10: '+(GAME._points/10)+', board/2: '+(GAME._board.length/2));
+		if((GAME._points/10) == (GAME._board.length/2)) {
+			alert('FULL of WIN!');
+		}
+	}
 };
 
 GAME.Timer = function(time) {
