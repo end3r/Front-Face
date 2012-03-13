@@ -1,17 +1,27 @@
 * { margin: 0; padding: 0; }
-body { font: normal 14px Verdana; background: #fff; }
+body { font: normal 14px Verdana; background: #fff url(../img/bg.jpg) repeat; }
 ul { list-style-type: none; }
 
-#board { margin: 0 auto; width: 700px; border: 1px solid red; }
-#board p { width: 100px; height: 100px; display: inline-block; margin: 10px 0 0 10px; background: #ccc url(../img/people.jpg) 0px 0px no-repeat; cursor: pointer; border-radius: 10px; }
+#container { width: 960px; margin: 20px auto; opacity: 1; background: #eee; border-radius: 20px; }
+
+h1 { width: 960px; text-align: center; font-size: 28px; padding: 10px 0; }
+
+#board { width: 580px; float: left; background: #ccc; border-radius: 10px; box-shadow: 0 0 5px #666 inset; opacity: 1; padding: 10px 20px 20px; }
+#board p { width: 100px; height: 100px; display: inline-block; margin: 10px 0 0 10px; background: #ccc url(../img/people.jpg) 0px 0px no-repeat; cursor: pointer; border-radius: 10px; box-shadow: 1px 1px 1px #333; }
 #board p:hover { box-shadow: 0 0 5px red; }
+#board p.disabled { cursor: auto; opacity: 0.5; box-shadow: 1px 1px 1px #333; }
+
+#panel { width: 260px; float: left; }
 #panel #start { background: #ddd; cursor: pointer; border-radius: 5px; padding: 5px 10px; display: inline-block; margin-left: 15px; border: 1px solid transparent; }
 #panel #start:hover { border: 1px solid #aaa; }
 
-#board .disabled { cursor: auto; opacity: 0.5; }
-#board p.disabled:hover { box-shadow: none; }
+.box { margin: 0 60px 20px 60px; text-align: center; /* box-shadow: 1px 1px 1px #aaa; border-radius: 10px;*/ }
+.box h2 { background: #e62f2b; color: #f3f3f4; box-shadow: 0 0 3px #a30906 inset; border-radius: 10px 10px 0 0; padding: 10px 20px; font-size: 12px; }
+.box p { background: #353535; color: #e42825; box-shadow: 0 0 5px 2px #000 inset; border-radius: 0 0 10px 10px; padding: 10px 20px; font-size: 24px; }
 
 #formBg { display: none; z-index: 10; position: absolute; top: 0; left: 0; width: 100%; }
 #formBg > div { margin: 60px auto; width: 400px; border: 1px solid red; background: #fff; }
 
 #modalBg { display: none; background: #000; opacity: 0.5; width: 100%; height: 100%; z-index: 5; position: absolute; top: 0; left: 0; }
+
+footer { text-align: right; line-height: 30px; clear: both; padding-right: 80px; font-size: 10px; }

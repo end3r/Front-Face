@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta charset="utf-8" />
-	<title>Front-Face - Front-Trends 2012 memory-quiz-like HTML5 game</title>
+	<title>Front-Face</title>
 	<meta name="author" content="end3r" />
 	<link rel="stylesheet" type="text/css" href="css/style.css" />
 	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
@@ -13,25 +13,24 @@
 <body>
 	<div id="container">
 		<h1>Front-Face</h1>
-		<div id="board">
-			<p id="card_0"></p>
-			<p id="card_1"></p>
-			<p id="card_2"></p>
-			<p id="card_3"></p>
-			<p id="card_4"></p>
-			<p id="card_5"></p>
-			<p id="card_6"></p>
-			<p id="card_7"></p>
-			<p id="card_8"></p>
-			<p id="card_9"></p>
-			<p id="card_10"></p>
-			<p id="card_11"></p>
-		</div>
 		<div id="panel">
-			<p id="start">Start the game!</p>
-			<p>Points: <span id="points">0</span></p>
-			<p id="time">0:00</p>
+			<p style="display: none;" id="start">Start the game!</p>
+			<div class="box">
+				<h2>Time</h2>
+				<p id="time">0:00</p>
+			</div>
+			<div class="box">
+				<h2>Points</h2>
+				<p id="points">0</p>
+			</div>
+			<div class="box">
+				<h2>Questions</h2>
+				<p><span id="q">0</span> &frasl; 20</p>
+			</div>
 		</div>
+		<div id="board">
+		</div>
+		<footer>Powered by HTML5. Created for <a href="">Front-Trends 2012</a>.</footer>
 	</div>
 	<div id="modalBg"></div>
 	<div id="formBg"></div>
