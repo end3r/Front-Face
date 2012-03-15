@@ -138,8 +138,12 @@ GAME.Form = function(item) {
 	};
 
 	// get 3 different values - the proper one and two random
-	var subject = question.id[question.nr],
-		answerTable = [];
+	do {
+		var subject = question.id[question.nr];
+		console.log('SUBJECT: '+subject);
+	} while(item[subject] == '');
+	
+	var answerTable = [];
 
 	console.log('item[subject]: '+item[subject]);
 
@@ -148,19 +152,19 @@ GAME.Form = function(item) {
 
 	// random
 	for(var i=0; i<2; i++) {
-		var newR = false;
+		var newRandom = false;
 		do {
 			var random = Math.floor(Math.random()*(GAME._board.length/2));
-			//console.log('Random: '+random+' from all '+(GAME._board.length/2)+' elements.');
-			// if random nie ma w tabeli, to dodaj
-			//console.log('GAME.data[random][subject]: '+GAME.data[random][subject]);
 			for (var j = 0; j < answerTable.length; j++) {
 				if(GAME.data[random][subject] != '' && GAME.data[random][subject] != answerTable[j]) {
-					//console.log('answerTable[j]: '+answerTable[j]);
-					newR = true;
+					newRandom = true;
+					console.log('newRandom: '+GAME.data[random][subject]);
+				}
+				else {
+					console.log('newRandom... NOT: '+GAME.data[random][subject]);
 				}
 			}
-		} while(newR == false);
+		} while(newRandom == false);
 		answerTable.push(GAME.data[random][subject]);
 	}
 
@@ -168,8 +172,7 @@ GAME.Form = function(item) {
 
 	var formHTML = ""+
 	"<div class='modal'>"+
-		""+
-		"<div>"+
+		"<div class='header'>"+
 			"<span class='photo' style='background-position: -"+(item.id*100)+"px 0;'></span>"+
 			"<span id='message'>What's the <strong>"+question.txt[question.nr]+"</strong> of this person?</span>"+
 		"</div>"+
@@ -201,14 +204,14 @@ GAME.CheckAnswer = function(chosen,correct) {
 		GAME.$id('points').innerHTML = GAME._points;
 
 		GAME.$id(chosen.id+'label').style.color = 'green';
-		GAME.$id(chosen.id+'label').innerHTML += ' ✓';
+		GAME.$id(chosen.id+'label').innerHTML;// += ' ✓';
 	}
 	else {
 		GAME.$id('message').innerHTML = 'Oh no, wrong answer, no points this time...';
 		//chosen.style.border = '2px solid red';
 
 		GAME.$id(chosen.id+'label').style.color = 'red';
-		GAME.$id(chosen.id+'label').innerHTML += ' ✗';
+		GAME.$id(chosen.id+'label').innerHTML;// += ' ✗';
 	}
 	
 	GAME._questions += 1;
@@ -231,7 +234,8 @@ GAME.CheckAnswer = function(chosen,correct) {
 		GAME.$id('formBg').style.display = 'none';
 		GAME.$id('modalBg').style.display = 'none';
 		//console.log('points/10: '+(GAME._points/10)+', board/2: '+(GAME._board.length/2));
-		if(GAME._questions == 10) {
+
+		if(GAME._questions == 10) { // fuk me I'm lazy
 			setTimeout(function(){
 				GAME.$id('formBg').style.display = 'block';
 				GAME.$id('modalBg').style.display = 'block';
@@ -241,6 +245,13 @@ GAME.CheckAnswer = function(chosen,correct) {
 					GAME.$id('modalBg').style.display = 'none';
 					GAME.NewLevel();
 				};
+			},200);
+		}
+		else if(GAME._questions == 20) {
+			setTimeout(function(){
+				GAME.$id('formBg').style.display = 'block';
+				GAME.$id('modalBg').style.display = 'block';
+				GAME.$id('formBg').innerHTML = '<div class="modal"><p>CONGRATS! WINRAR!</p></div>';
 			},200);
 		}
 	}
