@@ -131,5 +131,12 @@ GAME.data = [ // id | name | website | twitter | topic
 		website: 'smashingmagazine.com',
 		twitter: 'smashingmag',
 		topic: 'Responsive redesign: Smashing Magazine’s case-study'
+	},
+	{
+		id: 20,
+		name: 'Hannah Donovan',
+		website: 'hannahdonovan.com',
+		twitter: 'han',
+		topic: ''
 	}
 ];

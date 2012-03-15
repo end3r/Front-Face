@@ -1,46 +1,65 @@
 GAME._counter = 10;
 GAME.Init = function() {
+	GAME.$id('start').onclick = function() { if(!GAME._active) GAME.Start(); };
+	//GAME.Start();
+};
+
+GAME.Start = function() {
+	GAME.NewLevel();
+
+	GAME.Timer(0);
+	GAME._active = true;
+	GAME._visible = [];
+	GAME._points = 0;
+	GAME._trials = 0;
+	GAME._questions = 0;
+};
+
+GAME.NewLevel = function() {
+	console.log(GAME.data.length);
+	console.log('NEW LEVEL');
+
+	GAME.actualData = [];
+	for(var i = 0; i < GAME.data.length; i++) {
+		GAME.actualData.push(GAME.data[i]);
+	}
+
+	// generate HTML structure of the game board
 	var board = GAME.$id('board');
 	for (var i = 0, elements = ''; i < GAME._counter*2; i++) {
 		elements += '<p id="card_'+i+'"></p>';
 	}
+
+	// bind clicks to the cards
 	board.innerHTML = elements;
 	var els = board.getElementsByTagName('p');
 	for(var i=els.length-1; i>=0; i--) {
 		els[i].onclick = function() { GAME.CardClick(this); };
 	}
-	//GAME.$id('start').onclick = function() { if(!GAME._active) GAME.Start(); };
-	GAME.Start();
-};
 
-GAME.Start = function() {
-	GAME.Timer(0);
-	GAME.$id('start').innerHTML = 'Pause the game';
-	GAME._active = true;
-
-	var thrash = GAME.data.length-GAME._counter;
+	// take the items from the data table - add elements twice
+	GAME._board = [];
+	var thrash = GAME.actualData.length-GAME._counter;
 	for(var i = 0; i < thrash; i++) {
-		var random = Math.floor(Math.random()*GAME.data.length);
-		GAME.data.splice(random,1);
+		var random = Math.floor(Math.random()*GAME.actualData.length);
+		var removed = GAME.actualData.splice(random,1);
+		GAME._board.push(removed, removed);
 	};
-
-	// add elements twice
-	GAME._board = GAME.data;
-	GAME._board.push.apply(GAME._board, GAME.data);
 
 	// shuffle array 10 times - just to be sure it's more or less random
 	for (var i = 10; i >= 0; i--) {
 		GAME.shuffleArray(GAME._board);
 	};
 
-	GAME._visible = [];
-	GAME._points = 0;
-
-	//console.dir(GAME._board);
+	console.log('Board: ');
+	console.dir(GAME._board);
+	console.log('Data: ');
+	console.dir(GAME.data);
+	console.log('Actual Data: ');
+	console.dir(GAME.actualData);
 };
 
 GAME.HideCards = function() {
-	//document.querySelectorAll('.visible').className = '';
 	var item1 = GAME._visible.pop(),
 		item2 = GAME._visible.pop();
 
@@ -51,7 +70,6 @@ GAME.HideCards = function() {
 	myItem2.className = '';
 	myItem2.style.backgroundPosition = '';
 
-	//console.log('HIDE CARDS!');
 	GAME._active = true;
 	myItem1.onclick = function() { GAME.CardClick(this); };
 	myItem2.onclick = function() { GAME.CardClick(this); };
@@ -69,16 +87,14 @@ GAME.DisableCards = function() {
 	myItem2.className = 'disabled';
 	myItem2.onclick = function() {};
 
-	//console.log('DISABLE CARDS!');
 	GAME._active = true;
 };
 
 GAME.CardClick = function(card) {
+
 	if(GAME._active) {
 		var card_id = card.id.split('_')[1],
-			item = GAME._board[card_id];
-
-		//console.log('CLICKED card number '+card_id+' with ID = '+item.id+', and name: '+item.name);
+			item = GAME._board[card_id][0];
 
 		card.onclick = function() {};
 
@@ -103,12 +119,12 @@ GAME.CardClick = function(card) {
 					setTimeout(GAME.DisableCards,1);
 			//	}
 			}
-			else {
-				//console.log('MISSED!');
+			else { //console.log('MISSED!');
 				setTimeout(GAME.HideCards,1000);
 			}
-
 			GAME._active = false;
+			GAME._trials += 1;
+			GAME.$id('trials').innerHTML = GAME._trials;
 		}
 	}
 };
@@ -132,40 +148,37 @@ GAME.Form = function(item) {
 
 	// random
 	for(var i=0; i<2; i++) {
+		var newR = false;
 		do {
 			var random = Math.floor(Math.random()*(GAME._board.length/2));
 			//console.log('Random: '+random+' from all '+(GAME._board.length/2)+' elements.');
 			// if random nie ma w tabeli, to dodaj
-			var newR = false;
 			//console.log('GAME.data[random][subject]: '+GAME.data[random][subject]);
 			for (var j = 0; j < answerTable.length; j++) {
-				if(GAME.data[random][subject] != answerTable[j]) {
+				if(GAME.data[random][subject] != '' && GAME.data[random][subject] != answerTable[j]) {
 					//console.log('answerTable[j]: '+answerTable[j]);
 					newR = true;
 				}
-			};
+			}
 		} while(newR == false);
 		answerTable.push(GAME.data[random][subject]);
 	}
 
-	//console.log('-----');
-	//console.dir(answerTable);
-	//console.log('-----');
-
-//	var answerTable = [
-//		item[questionNames[question]],
-//		GAME._board[Math.floor(Math.random()*5)][questionNames[question]],
-//		GAME._board[Math.floor(Math.random()*5)][questionNames[question]]
-//	];
+	GAME.shuffleArray(answerTable);
 
 	var formHTML = ""+
-	"<div>"+
-		"<p id='message'>What's the <strong>"+question.txt[question.nr]+"</strong> of this person?</p>"+
-		"<p><form>"+
-			"<input type='radio' name='q' value='"+answerTable[0]+"' id='radio1' /> <label for='radio1'>"+answerTable[0]+"</label> "+
-			"<input type='radio' name='q' value='"+answerTable[1]+"' id='radio2' /> <label for='radio2'>"+answerTable[1]+"</label> "+
-			"<input type='radio' name='q' value='"+answerTable[2]+"' id='radio3' /> <label for='radio3'>"+answerTable[2]+"</label> "+
-		"</form></p>"+
+	"<div class='modal'>"+
+		""+
+		"<div>"+
+			"<span class='photo' style='background-position: -"+(item.id*100)+"px 0;'></span>"+
+			"<span id='message'>What's the <strong>"+question.txt[question.nr]+"</strong> of this person?</span>"+
+		"</div>"+
+		"<form id='form'>"+
+			"<p><input type='radio' name='q' value='"+answerTable[0]+"' id='radio1' /> <label id='radio1label' for='radio1'>"+answerTable[0]+"</label></p>"+
+			"<p><input type='radio' name='q' value='"+answerTable[1]+"' id='radio2' /> <label id='radio2label' for='radio2'>"+answerTable[1]+"</label></p>"+
+			"<p><input type='radio' name='q' value='"+answerTable[2]+"' id='radio3' /> <label id='radio3label' for='radio3'>"+answerTable[2]+"</label></p>"+
+		"</form>"+
+		"<div class='continue'><span id='continue'>Continue</span></div>"+
 	"</div>";
 
 	GAME.$id('formBg').style.display = 'block';
@@ -181,23 +194,54 @@ GAME.Form = function(item) {
 };
 
 GAME.CheckAnswer = function(chosen,correct) {
-	//console.log('radio checked: '+radio.value);
 	if(chosen.value == correct) {
-		GAME.$id('message').innerHTML = '<span style="color: green;">Congrats, +1 point!</span> <b id="continue">Click to continue!</b>';
+		GAME.$id('message').innerHTML = 'Congratulations, your answer is correct!';
 		chosen.style.background = 'green';
 		GAME._points += 10;
 		GAME.$id('points').innerHTML = GAME._points;
+
+		GAME.$id(chosen.id+'label').style.color = 'green';
+		GAME.$id(chosen.id+'label').innerHTML += ' ✓';
 	}
 	else {
-		GAME.$id('message').innerHTML = '<span style="color: red;">Wrong, no points this time, try again...</span> <b id="continue">Click to continue!</b>';
-		chosen.style.background = 'red';
+		GAME.$id('message').innerHTML = 'Oh no, wrong answer, no points this time...';
+		//chosen.style.border = '2px solid red';
+
+		GAME.$id(chosen.id+'label').style.color = 'red';
+		GAME.$id(chosen.id+'label').innerHTML += ' ✗';
 	}
+	
+	GAME._questions += 1;
+	GAME.$id('questions').innerHTML = GAME._questions;
+	GAME.$id('continue').style.visibility = 'visible';
+
+	GAME.$id('radio1').disabled = true;
+	GAME.$id('radio2').disabled = true;
+	GAME.$id('radio3').disabled = true;
+
+//	GAME.$id('radio1label').style.color = 'red';
+//	GAME.$id('radio2label').style.color = 'red';
+//	GAME.$id('radio3label').style.color = 'red';
+
+	GAME.$id('form').className = 'disabled';
+
+//	GAME.$id(correct.id+'label').style.color = 'green';
+
 	GAME.$id('continue').onclick = function() {
 		GAME.$id('formBg').style.display = 'none';
 		GAME.$id('modalBg').style.display = 'none';
 		//console.log('points/10: '+(GAME._points/10)+', board/2: '+(GAME._board.length/2));
-		if((GAME._points/10) == (GAME._board.length/2)) {
-			alert('FULL of WIN!');
+		if(GAME._questions == 10) {
+			setTimeout(function(){
+				GAME.$id('formBg').style.display = 'block';
+				GAME.$id('modalBg').style.display = 'block';
+				GAME.$id('formBg').innerHTML = '<div class="modal"><p>CONGRATS!</p> <p id="newLevel">Continue</p></div>';
+				GAME.$id('newLevel').onclick = function() {
+					GAME.$id('formBg').style.display = 'none';
+					GAME.$id('modalBg').style.display = 'none';
+					GAME.NewLevel();
+				};
+			},200);
 		}
 	}
 };

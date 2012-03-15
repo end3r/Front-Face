@@ -1,5 +1,5 @@
 * { margin: 0; padding: 0; }
-body { font: normal 14px Verdana; background: #fff url(../img/bg.jpg) repeat; }
+body { font: normal 14px Verdana; background: #fff url(../img/bg.jpg) repeat; color: #2c2c2c; line-height: 20px; }
 ul { list-style-type: none; }
 
 #container { width: 960px; margin: 20px auto; opacity: 1; background: #eee; border-radius: 20px; }
@@ -11,16 +11,25 @@ h1 { width: 960px; text-align: center; font-size: 28px; padding: 10px 0; }
 #board p:hover { box-shadow: 0 0 5px red; }
 #board p.disabled { cursor: auto; opacity: 0.5; box-shadow: 1px 1px 1px #333; }
 
+span.start { display: block; width: 100px; text-align: center; cursor: pointer; color: #fff; background: #323232; border-radius: 5px; padding: 5px 15px; text-transform: uppercase; margin: 100px auto; }
+
 #panel { width: 260px; float: left; }
 #panel #start { background: #ddd; cursor: pointer; border-radius: 5px; padding: 5px 10px; display: inline-block; margin-left: 15px; border: 1px solid transparent; }
 #panel #start:hover { border: 1px solid #aaa; }
 
-.box { margin: 0 60px 20px 60px; text-align: center; /* box-shadow: 1px 1px 1px #aaa; border-radius: 10px;*/ }
-.box h2 { background: #e62f2b; color: #f3f3f4; box-shadow: 0 0 3px #a30906 inset; border-radius: 10px 10px 0 0; padding: 10px 20px; font-size: 12px; }
+.box { margin: 0 60px 15px 60px; text-align: center; /* box-shadow: 1px 1px 1px #aaa; border-radius: 10px;*/ }
+.box h2 { background: #e62f2b; color: #f3f3f4; box-shadow: 0 0 3px #a30906 inset; border-radius: 10px 10px 0 0; padding: 5px 20px; font-size: 12px; }
 .box p { background: #353535; color: #e42825; box-shadow: 0 0 5px 2px #000 inset; border-radius: 0 0 10px 10px; padding: 10px 20px; font-size: 24px; }
 
 #formBg { display: none; z-index: 10; position: absolute; top: 0; left: 0; width: 100%; }
-#formBg > div { margin: 60px auto; width: 400px; border: 1px solid red; background: #fff; }
+#formBg form { display: block; clear: both; margin-left: 20px; }
+.modal form.disabled label:hover { cursor: default; border-bottom: none; }
+.modal label:hover { cursor: pointer; border-bottom: 1px solid #2c2c2c; }
+.modal { margin: 60px auto; width: 400px; background: #d5d4d4; border-radius: 15px; padding: 15px; }
+.modal p { margin: 10px 0; }
+.modal .photo { display: block; float: left; width: 100px; height: 100px; background: #ccc url(../img/people.jpg) 0px 0px no-repeat; border-radius: 10px; margin: 0 25px 25px 0; border: 1px solid #2c2c2c; }
+.modal .continue { visibility: hidden; text-align: right; }
+.modal .continue span { display: inline-block; cursor: pointer; color: #fff; background: #323232; border-radius: 5px; padding: 5px 15px; text-transform: uppercase; }
 
 #modalBg { display: none; background: #000; opacity: 0.5; width: 100%; height: 100%; z-index: 5; position: absolute; top: 0; left: 0; }
 
