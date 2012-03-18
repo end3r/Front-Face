@@ -2,6 +2,7 @@ GAME._counter = 10;
 GAME.Init = function() {
 	GAME.$id('start').onclick = function() { if(!GAME._active) GAME.Start(); };
 	//GAME.Start();
+	GAME.$id('formBg').innerHTML = '<img style="width: 1px; height: 1px;" src="/img/people.jpg" alt="people" />';
 };
 
 GAME.Start = function() {
@@ -16,8 +17,8 @@ GAME.Start = function() {
 };
 
 GAME.NewLevel = function() {
-	console.log(GAME.data.length);
-	console.log('NEW LEVEL');
+//	console.log(GAME.data.length);
+//	console.log('NEW LEVEL');
 
 	GAME.actualData = [];
 	for(var i = 0; i < GAME.data.length; i++) {
@@ -51,12 +52,12 @@ GAME.NewLevel = function() {
 		GAME.shuffleArray(GAME._board);
 	};
 
-	console.log('Board: ');
-	console.dir(GAME._board);
-	console.log('Data: ');
-	console.dir(GAME.data);
-	console.log('Actual Data: ');
-	console.dir(GAME.actualData);
+//	console.log('Board: ');
+//	console.dir(GAME._board);
+//	console.log('Data: ');
+//	console.dir(GAME.data);
+//	console.log('Actual Data: ');
+//	console.dir(GAME.actualData);
 };
 
 GAME.HideCards = function() {
@@ -140,12 +141,12 @@ GAME.Form = function(item) {
 	// get 3 different values - the proper one and two random
 	do {
 		var subject = question.id[question.nr];
-		console.log('SUBJECT: '+subject);
+		//console.log('SUBJECT: '+subject);
 	} while(item[subject] == '');
 	
 	var answerTable = [];
 
-	console.log('item[subject]: '+item[subject]);
+	//console.log('item[subject]: '+item[subject]);
 
 	// proper
 	answerTable.push(item[subject]);
@@ -158,10 +159,10 @@ GAME.Form = function(item) {
 			for (var j = 0; j < answerTable.length; j++) {
 				if(GAME.data[random][subject] != '' && GAME.data[random][subject] != answerTable[j]) {
 					newRandom = true;
-					console.log('newRandom: '+GAME.data[random][subject]);
+					//console.log('newRandom: '+GAME.data[random][subject]);
 				}
 				else {
-					console.log('newRandom... NOT: '+GAME.data[random][subject]);
+					;//console.log('newRandom... NOT: '+GAME.data[random][subject]);
 				}
 			}
 		} while(newRandom == false);
@@ -235,11 +236,12 @@ GAME.CheckAnswer = function(chosen,correct) {
 		GAME.$id('modalBg').style.display = 'none';
 		//console.log('points/10: '+(GAME._points/10)+', board/2: '+(GAME._board.length/2));
 
-		if(GAME._questions == 10) { // fuk me I'm lazy
+		if(GAME._questions == 1) { // fuk me I'm lazy
 			setTimeout(function(){
 				GAME.$id('formBg').style.display = 'block';
 				GAME.$id('modalBg').style.display = 'block';
-				GAME.$id('formBg').innerHTML = '<div class="modal"><p>CONGRATS!</p> <p id="newLevel">Continue</p></div>';
+				GAME.$id('formBg').innerHTML = "<div class='modal'><p>Nice, You're half way thru! You've managed to solve the first 10 pairs of photos, let's see how You'll handle the second part of the game.</p> <p class='continue'><span id='newLevel'>Continue</span></p></div>";
+				GAME.$id('newLevel').style.visibility = 'visible';
 				GAME.$id('newLevel').onclick = function() {
 					GAME.$id('formBg').style.display = 'none';
 					GAME.$id('modalBg').style.display = 'none';
@@ -247,11 +249,12 @@ GAME.CheckAnswer = function(chosen,correct) {
 				};
 			},200);
 		}
-		else if(GAME._questions == 20) {
+		else if(GAME._questions == 2) {
 			setTimeout(function(){
-				GAME.$id('formBg').style.display = 'block';
-				GAME.$id('modalBg').style.display = 'block';
-				GAME.$id('formBg').innerHTML = '<div class="modal"><p>CONGRATS! WINRAR!</p></div>';
+			//	GAME.$id('formBg').style.display = 'block';
+			//	GAME.$id('modalBg').style.display = 'block';
+			//	GAME.$id('formBg').innerHTML = '<div class="modal"><p>CONGRATS! WINRAR!</p></div>';
+				GAME.$id('board').innerHTML = '<div>CONGRATS!</div><div>Score: '+GAME._points+' in '+GAME.$id('time').innerHTML+'<div>[share your score on Twitter to win]</div>';
 			},200);
 		}
 	}
