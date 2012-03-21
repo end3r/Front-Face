@@ -33,7 +33,10 @@ h1 a,
 .box h2,
 .start,
 .panel .links p,
-.modal .continue span {
+.modal .continue span,
+.page h2,
+.page h3,
+.howto {
 	font-family: "LeagueGothicRegular", "Helvetica", Arial, sans-serif;
 	font-weight: normal;
 	text-transform: uppercase;
@@ -88,10 +91,12 @@ h1 a img {
 	background: #ccc url(../img/people.jpg) 0 0 no-repeat;
 	cursor: pointer;
 	border-radius: 10px;
-	box-shadow: 1px 1px 1px #333;
+	box-shadow: 1px 1px 1px #333;/*
+	-moz-transition: box-shadow 0.5s;*/
 }
-.board p:hover {
-	box-shadow: 0 0 5px red;
+.board p:hover {/*
+	box-shadow: 1px 1px 3px #ffe3e2;
+	-moz-transition: box-shadow 0.5s;*/
 }
 .board p.disabled {
 	cursor: auto;
@@ -227,11 +232,79 @@ h1 a img {
 	left: 0;
 }
 
+.pages {
+	display: none;
+}
+
+.page {
+	text-align: center;
+	width: 600px;
+	position: relative;
+}
+.page h2 {
+	margin: 25px 0 10px;
+	font-size: 32px;
+}
+.page h2:first-child {
+	margin-top: 10px;
+}
+.page .continue {
+	visibility: visible;
+	text-align: right;
+	margin-top: 20px;
+}
+.page h3 {
+	font-size: 20px;
+	color: #c60f0b;
+	cursor: pointer;
+	margin-top: 40px;
+	display: inline-block;
+	border: 1px solid #f63f3b;
+	padding: 2px 15px;
+	border-radius: 5px;
+}
+.page h3:hover {
+	color: #fff;
+	background: #c60f0b;
+}
+.page .howto {
+	position: absolute;
+	font-size: 24px;
+	color: #444;
+}
+.page .collect {
+	top: 40px;
+	left: 135px;
+}
+.page .answer {
+	top: 230px;
+	left: 360px;
+}
+.page .score {
+	top: 315px;
+	left: 160px;
+}
+.page .time {
+	bottom: 30px;
+	left: 30px;
+}
+.page#page-howto {
+	height: 440px;
+	background: #d5d4d4 url(../img/howto.jpg) center 20px no-repeat;
+}
+.page#page-howto .continue {
+	position: absolute;
+	bottom: 15px;
+	right: 15px;
+}
+.page#page-howto .continue span {
+}
+
 footer {
 	text-align: right;
 	line-height: 30px;
 	clear: both;
-	padding-right: 80px;
+	padding: 10px 80px 10px 0;
 	font-size: 10px;
 }
 footer span {

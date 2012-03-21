@@ -1,14 +1,18 @@
-GAME._counter = 10;
 GAME.Init = function() {
+	// shuffle the input data so it looks kinda random
+	for (var i = 10; i >= 0; i--) {
+		GAME.shuffleArray(GAME.data);
+	}
 	GAME.$id('start').onclick = function() { if(!GAME._active) GAME.Start(); };
-	//GAME.Start();
-	GAME.$id('formBg').innerHTML = '<img style="width: 1px; height: 1px;" src="/img/people.jpg" alt="people" />';
+	GAME.$id('howto').onclick = function() { GAME.Page('howto'); };
+	GAME.$id('about').onclick = function() { GAME.Page('about'); };
+	GAME._counter = 10;
 };
 
 GAME.Start = function() {
-	GAME.NewLevel();
-
-	GAME.Timer(0);
+	GAME.NewLevel(1);
+	GAME._time = 0;
+	GAME.Timer();
 	GAME._active = true;
 	GAME._visible = [];
 	GAME._points = 0;
@@ -16,13 +20,12 @@ GAME.Start = function() {
 	GAME._questions = 0;
 };
 
-GAME.NewLevel = function() {
-//	console.log(GAME.data.length);
-//	console.log('NEW LEVEL');
-
-	GAME.actualData = [];
-	for(var i = 0; i < GAME.data.length; i++) {
-		GAME.actualData.push(GAME.data[i]);
+GAME.NewLevel = function(lvl) {
+	GAME._board = [];
+	// take the items from the data table and add them twice
+	for(var i = 0; i < GAME._counter; i++) {
+		var data = GAME.data[((lvl-1)*GAME._counter)+i];
+		GAME._board.push(data, data);
 	}
 
 	// generate HTML structure of the game board
@@ -38,26 +41,10 @@ GAME.NewLevel = function() {
 		els[i].onclick = function() { GAME.CardClick(this); };
 	}
 
-	// take the items from the data table - add elements twice
-	GAME._board = [];
-	var thrash = GAME.actualData.length-GAME._counter;
-	for(var i = 0; i < thrash; i++) {
-		var random = Math.floor(Math.random()*GAME.actualData.length);
-		var removed = GAME.actualData.splice(random,1);
-		GAME._board.push(removed, removed);
-	};
-
 	// shuffle array 10 times - just to be sure it's more or less random
 	for (var i = 10; i >= 0; i--) {
 		GAME.shuffleArray(GAME._board);
-	};
-
-//	console.log('Board: ');
-//	console.dir(GAME._board);
-//	console.log('Data: ');
-//	console.dir(GAME.data);
-//	console.log('Actual Data: ');
-//	console.dir(GAME.actualData);
+	}
 };
 
 GAME.HideCards = function() {
@@ -95,32 +82,20 @@ GAME.CardClick = function(card) {
 
 	if(GAME._active) {
 		var card_id = card.id.split('_')[1],
-			item = GAME._board[card_id][0];
+			item = GAME._board[card_id];
 
 		card.onclick = function() {};
-
 		card.className = 'visible';
 		card.style.backgroundPosition = '-'+(item.id*100)+'px 0';
 		GAME._visible.push({'item_id':item.id,'card_id':card_id});
 
 		if(GAME._visible.length == 2) { // two visible cards
-
 			if(GAME._visible[0].item_id == GAME._visible[1].item_id) { // the same card ID
 				// ask question - if answered correct, add points, if not - don't
 				GAME.Form(item);
-
-				//console.log('CORRECT!');
-				//GAME._points+=2;
-			//	if(GAME._points == GAME._board.length) {
-					//
-			//		setTimeout(GAME.DisableCards,1);
-			//		alert('FULL of WIN!');
-			//	}
-			//	else {
-					setTimeout(GAME.DisableCards,1);
-			//	}
+				setTimeout(GAME.DisableCards,1);
 			}
-			else { //console.log('MISSED!');
+			else {
 				setTimeout(GAME.HideCards,1000);
 			}
 			GAME._active = false;
@@ -140,7 +115,7 @@ GAME.Form = function(item) {
 
 	// get 3 different values - the proper one and two random
 	do {
-		var subject = question.id[question.nr];
+		var subject = question.id[question.nr]; // fuk
 		//console.log('SUBJECT: '+subject);
 	} while(item[subject] == '');
 	
@@ -168,7 +143,6 @@ GAME.Form = function(item) {
 		} while(newRandom == false);
 		answerTable.push(GAME.data[random][subject]);
 	}
-
 	GAME.shuffleArray(answerTable);
 
 	var formHTML = ""+
@@ -185,16 +159,11 @@ GAME.Form = function(item) {
 		"<div class='continue'><span id='continue'>Continue</span></div>"+
 	"</div>";
 
-	GAME.$id('formBg').style.display = 'block';
-	GAME.$id('modalBg').style.display = 'block';
-	GAME.$id('formBg').innerHTML = formHTML;
-
+	GAME.$showModal(formHTML);
 	GAME.$id('radio1').onclick = function() { GAME.CheckAnswer(this,item[subject]); };
 	GAME.$id('radio2').onclick = function() { GAME.CheckAnswer(this,item[subject]); };
 	GAME.$id('radio3').onclick = function() { GAME.CheckAnswer(this,item[subject]); };
 	//document.getElementsByTagName('input').onclick = function() { GAME.CheckAnswer(this); };
-
-	//console.dir(item);
 };
 
 GAME.CheckAnswer = function(chosen,correct) {
@@ -203,14 +172,11 @@ GAME.CheckAnswer = function(chosen,correct) {
 		chosen.style.background = 'green';
 		GAME._points += 10;
 		GAME.$id('points').innerHTML = GAME._points;
-
 		GAME.$id(chosen.id+'label').style.color = 'green';
 		GAME.$id(chosen.id+'label').innerHTML;// += ' ✓';
 	}
 	else {
 		GAME.$id('message').innerHTML = 'Oh no, wrong answer, no points this time...';
-		//chosen.style.border = '2px solid red';
-
 		GAME.$id(chosen.id+'label').style.color = 'red';
 		GAME.$id(chosen.id+'label').innerHTML;// += ' ✗';
 	}
@@ -232,40 +198,57 @@ GAME.CheckAnswer = function(chosen,correct) {
 //	GAME.$id(correct.id+'label').style.color = 'green';
 
 	GAME.$id('continue').onclick = function() {
-		GAME.$id('formBg').style.display = 'none';
-		GAME.$id('modalBg').style.display = 'none';
-		//console.log('points/10: '+(GAME._points/10)+', board/2: '+(GAME._board.length/2));
+		GAME.$hideModal();
 
-		if(GAME._questions == 1) { // fuk me I'm lazy
+		if(GAME._questions == 10) {
 			setTimeout(function(){
-				GAME.$id('formBg').style.display = 'block';
-				GAME.$id('modalBg').style.display = 'block';
-				GAME.$id('formBg').innerHTML = "<div class='modal'><p>Nice, You're half way thru! You've managed to solve the first 10 pairs of photos, let's see how You'll handle the second part of the game.</p> <p class='continue'><span id='newLevel'>Continue</span></p></div>";
+				GAME.$showModal("<div class='modal'>"+
+					"<div>Nice, You're half way thru! You've managed to solve the first 10 pairs of photos, let's see how You'll handle the second part of the game.</div>"+
+					"<div class='continue'><span id='newLevel'>Continue</span></div>"+
+				"</div>");
 				GAME.$id('newLevel').style.visibility = 'visible';
 				GAME.$id('newLevel').onclick = function() {
-					GAME.$id('formBg').style.display = 'none';
-					GAME.$id('modalBg').style.display = 'none';
-					GAME.NewLevel();
+					GAME.$hideModal();
+					GAME.NewLevel(2);
 				};
 			},200);
 		}
-		else if(GAME._questions == 2) {
+		else if(GAME._questions == 20) {
 			setTimeout(function(){
-			//	GAME.$id('formBg').style.display = 'block';
-			//	GAME.$id('modalBg').style.display = 'block';
-			//	GAME.$id('formBg').innerHTML = '<div class="modal"><p>CONGRATS! WINRAR!</p></div>';
-				GAME.$id('board').innerHTML = '<div>CONGRATS!</div><div>Score: '+GAME._points+' in '+GAME.$id('time').innerHTML+'<div>[share your score on Twitter to win]</div>';
+				GAME.TimerStop();
+				GAME.Page('gameover');
 			},200);
 		}
 	}
 };
 
-GAME.Timer = function(time) {
-	var sec = ~~(time%60),
-		min = ~~(time/60),
+GAME.Timer = function() {
+	var sec = ~~(GAME._time%60),
+		min = ~~(GAME._time/60),
 		secHTML = (sec < 10) ? '0'+sec : sec,
 		minHTML = (min < 10) ? '0'+min : min;
 	GAME.$id('time').innerHTML = minHTML+':'+secHTML;
-	time++;
-	setTimeout('GAME.Timer('+time+')',1000);
+	GAME._time++;
+	GAME.TimerClock = setTimeout('GAME.Timer()',1000);
+};
+
+GAME.TimerStop = function() {
+	clearTimeout(GAME.TimerClock);
+};
+
+GAME.Page = function(page) {
+	if(page == 'gameover') {
+		var str = GAME.$id('page-gameover').innerHTML;
+		str = str.replace('[0P]',GAME._points);
+		str = str.replace('[0%]',(GAME._points*5)); // *5, because /20 and *100 to have percents
+		str = str.replace('[0M]',~~(GAME._time/60));
+		str = str.replace('[0S]',(GAME._time%60));
+		GAME.$showModal('<div class="modal page">'+str+'</div>');
+	}
+	else {
+		GAME.$showModal('<div class="modal page" id="page-'+page+'">'+GAME.$id('page-'+page).innerHTML+' <div class="continue"><span id="close">Close</span></div></div>');
+		GAME.$id('close').onclick = function() {
+			GAME.$hideModal();
+		}
+	}
 };

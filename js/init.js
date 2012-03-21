@@ -12,3 +12,16 @@ GAME.shuffleArray = function(array) {
 	  	array[p] = t;
  	}
 };
+
+GAME.$showModal = function(content) {
+	GAME.$id('formBg').style.display = 'block';
+	GAME.$id('modalBg').style.display = 'block';
+	if(content) {
+		GAME.$id('formBg').innerHTML = content;
+	}
+};
+
+GAME.$hideModal = function() {
+	GAME.$id('formBg').style.display = 'none';
+	GAME.$id('modalBg').style.display = 'none';
+};
