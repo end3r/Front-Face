@@ -7,7 +7,7 @@
 	<meta name="description" content="" />
 	<meta name="keywords" content="" />
 	<link rel="stylesheet" type="text/css" href="css/style.css" />
-	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+	<link rel="shortcut icon" href="img/favicon.png" />
 	<script src="js/init.js"></script>
 	<script src="js/data.js"></script>
 	<script src="js/game.js"></script>
@@ -35,9 +35,16 @@
 			<div class="links">
 				<p id="howto">How to play</p>
 				<p id="about">About the game</p>
+				<p id="threedee">Make it 3D!</p>
+			</div>
+			<div class="links sublinks">
+				<p>Twitterize it</p>
+				<p>Geolocate me</p>
+				<p>How to win a ticket</p>
+				<p id="score"></p>
 			</div>
 		</div>
-		<div class="board" id="board">
+		<div class="board intro" id="board">
 			<span class="start" id="start">Play</span>
 		</div>
 		<div class="pages">
@@ -66,10 +73,11 @@
 				<div>Play again &frasl; Close</div>
 			</div>
 		</div>
-		<footer><p><span id="score">Your best score: <strong id="score-points">0 points</strong> (<span id="score-trials">27 trials</span>) in <strong id="score-time">6 minutes and 23 seconds.</strong></span> Geo: <span id="geo">retrieving...</span></p>Twitter | Facebook | Google+</footer>
+		<footer><p><span class="score"></span></p>Twitter | Facebook | Google+</footer>
 	</div>
 	<div id="modalBg"></div>
 	<div id="formBg"></div>
 	<script>GAME.Init();</script>
+	<script src="js/csscube.js"></script>
 </body>
 </html>
