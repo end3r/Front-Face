@@ -39,7 +39,8 @@ h1 a,
 .modal .continue span,
 .page h2,
 .page h3,
-.howto {
+.howto,
+nav button {
 	font-family: "LeagueGothicRegular", "Helvetica", Arial, sans-serif;
 	font-weight: normal;
 	text-transform: uppercase;
@@ -58,7 +59,7 @@ h1 {
 	width: 960px;
 	text-align: center;
 	font-size: 28px;
-	padding: 10px 0;
+	padding: 10px 0 10px 130px;
 	text-shadow: 1px 1px 1px #fff;
 }
 h1 a {
@@ -83,7 +84,7 @@ h1 a img {
 	float: left;
 	background: #ccc url(../img/bg.jpg) 0 0 repeat;
 	border-radius: 10px;
-	box-shadow: 0 0 5px #666 inset;
+	box-shadow: 0 0 7px #333 inset;
 	opacity: 1;
 	padding-top: 15px;
 }
@@ -129,7 +130,7 @@ h1 a img {
 	border-radius: 10px;
 	padding: 10px 15px;
 	box-shadow: 0 0 3px #a30906 inset, 1px 1px 1px #666;
-	margin: 355px auto 0;
+	margin: 305px auto 0;
 	color: #f3f3f4;
 }
 
@@ -152,7 +153,7 @@ h1 a img {
 	color: #c60f0b;
 }
 .panel .links.sublinks {
-	padding: 0 20px;
+	padding: 35px 20px 0;
 }
 .panel .links.sublinks p {
 	font-size: 20px;
@@ -230,7 +231,6 @@ h1 a img {
 	border: 1px solid #2c2c2c;
 }
 .modal .continue {
-	visibility: hidden;
 	text-align: right;
 }
 .modal .continue span {
@@ -241,6 +241,9 @@ h1 a img {
 	border-radius: 5px;
 	padding: 5px 15px;
 	font-size: 22px;
+}
+.modalBig {
+	width: 800px;
 }
 
 #modalBg {
@@ -353,20 +356,31 @@ footer .score:hover {
 	float: left;
 }
 
-
+.perspective .board .cubecontainer {
+	width: 580px;
+	height: 400px;
+}
+.perspective .board .cubecontainer nav {
+	margin: 0 auto;
+	text-align: center;
+}
 nav button {
-	color: #333;
+	font-size: 20px;
+	display: inline-block;
+	text-align: center;
 	cursor: pointer;
-	background: #888;
-	border-radius: 10px;
-	margin-left: 10px;
+	background: #e62f2b;
+	border-radius: 5px;
+	padding: 5px 10px;
+	box-shadow: 0 0 3px #a30906 inset, 1px 1px 1px #666;
+	color: #f3f3f4;
+	margin: 10px 10px;
 }
 
-
 .perspective .cubecontainer nav {
-  position: absolute;
+  /*position: absolute;
   top: 0;
-  left: 0;
+  left: 50px;*/
 }
 .cube li { 
   float: left;
@@ -381,6 +395,7 @@ nav button {
 }
 .perspective .cube {
   overflow: visible;
+  margin: 80px 0 0 90px;
 }
 .perspective .cubecontainer nav li {
   display: inline;
@@ -389,7 +404,6 @@ nav button {
   display: block;
   width: 100px;
   height: 100px;
-  padding: 10px;
 }
 
 .perspective .cube img {
@@ -402,12 +416,12 @@ button {
   border: none;
   background: transparent;
   font-weight: bold;
-  color: lime;
+  color: #ccc;
   font-size: 15px;
   padding: 5px 10px;
 }
-.perspective .labeled .cube li{
-  background: rgba(50,200,0,0.8);
+.perspective .cube li{
+  background: rgba(150,150,150,0.8);
   font-size:50px;
   line-height: 200px;
   text-align: center;
@@ -550,4 +564,26 @@ button {
       -ms-transform: rotateX(-90deg) translate3d(0, 0, 100px);
        -o-transform: rotateX(-90deg) translate3d(0, 0, 100px);
           transform: rotateX(-90deg) translate3d(0, 0, 100px);
+}
+
+
+
+
+#map-container {
+	overflow: hidden;
+	margin-bottom: 20px;
+	border: 1px solid #999;
+	border-radius: 10px;
+}
+#map {
+	float: left;
+	width: 399px;
+	height: 400px;
+}
+#map-directions {
+	float: left;
+	width: 369px;
+	height: 400px;
+	padding: 0 15px;
+	overflow: auto;
 }

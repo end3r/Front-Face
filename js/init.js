@@ -85,47 +85,82 @@ GAME.API.offline = function() {
 };
 
 GAME.API.geolocation = function() {
-	if (navigator.geolocation) {
-		//console.log('Geolocation is supported!');
+	// Demo by Robert Nyman taken from:
+	// http://robertnyman.com/html5/geolocation/current-location-and-directions.html
 
-		var startPos;
-		navigator.geolocation.getCurrentPosition(function(position) {
-			startPos = position;
-			GAME.$id('geo').innerHTML = '[ Lat: '+(~~startPos.coords.latitude)+' | Lon: '+(~~startPos.coords.longitude)+' ] Click 4 popup & more!';
-		});
-	}
-	else {
-		//console.log('Geolocation is not supported for this Browser/OS version yet.');
-	}
+	GAME.$showModal('<div id="map-container"><div id="map"></div><div id="map-directions"></div></div>'+GAME.$txt.close,'modalBig');
+	GAME.$id('close').onclick = function() { GAME.$hideModal(); }
 
-	// calculat the distance between the Warsaw and the user's current location
-	// http://www.html5rocks.com/en/tutorials/geolocation/trip_meter/
-	// http://breakthebit.org/post/10512237123/using-html5-geolocation-api-to-get-the-distance-of-the
-	// http://mobile.tutsplus.com/tutorials/mobile-web-apps/html5-geolocation/
-	// http://www.ip2location.com/html5geolocationapi.aspx
-	// http://www.sitepoint.com/using-the-html5-geolocation-api/
-	// http://spektom.blogspot.com/2010/05/html5-geolocation-api-is-scaring-me.html
-	// http://robertnyman.com/2010/03/15/geolocation-in-web-browsers-to-find-location-google-maps-examples/
-	// !!! http://robertnyman.com/html5/geolocation/current-location-and-directions.html !!!
-	/*
-	document.getElementById('distance').innerHTML =
-		calculateDistance(startPos.coords.latitude, startPos.coords.longitude,
-			position.coords.latitude, position.coords.longitude);
-	*/
+	var directionsService = new google.maps.DirectionsService(),
+		directionsDisplay = new google.maps.DirectionsRenderer(),
+		createMap = function (start) {
+			var travel = {
+					origin : (start.coords)? new google.maps.LatLng(start.lat, start.lng) : start.address,
+					destination : "Mińska 25, Warszawa",
+					travelMode : google.maps.DirectionsTravelMode.DRIVING
+					// Exchanging DRIVING to WALKING above can prove quite amusing :-)
+				},
+				mapOptions = {
+					zoom: 10,
+					// Default view: Warsaw
+					center : new google.maps.LatLng(52.025459, 19.204102),
+					mapTypeId: google.maps.MapTypeId.ROADMAP
+				};
+
+			var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+			directionsDisplay.setMap(map);
+			directionsDisplay.setPanel(document.getElementById("map-directions"));
+			directionsService.route(travel, function(result, status) {
+				if (status === google.maps.DirectionsStatus.OK) {
+					directionsDisplay.setDirections(result);
+					
+					//console.log('DISTANCE: '+result.routes[0].legs[0].distance.text);
+					GAME.$id('geo').innerHTML = "You're "+result.routes[0].legs[0].distance.text+" from the venue!";
+				}
+			});
+		};
+
+		// Check for geolocation support	
+		if (navigator.geolocation) {
+			navigator.geolocation.getCurrentPosition(function (position) {
+					// Success!
+					createMap({
+						coords : true,
+						lat : position.coords.latitude,
+						lng : position.coords.longitude
+					});
+				}, 
+				function () {
+					// Gelocation fallback: Defaults to Warsaw
+					createMap({
+						coords : false,
+						address : "Warszawa"
+					});
+				}
+			);
+		}
+		else {
+			// No geolocation fallback: Defaults to Warsaw
+			createMap({
+				coords : false,
+				address : "Warszawa"
+			});
+		}
 };
 
 GAME.ThreeD = function() {
-	//console.log('3D!');
+	// Demo by Chris Heilmann taken from:
+	// http://hacks.mozilla.org/2012/03/getting-you-started-for-the-css-3d-transform-dev-derby-15-minute-screencast/
 
 	var threeHTML = ''+
-	'<div class="cubecontainer labeled">'+
+	'<div class="cubecontainer">'+
 		'<ul class="cube left">'+
 			'<li class="front" id="side_0" data-label="Front">Front</li>'+
 			'<li class="left" id="side_1" data-label="Left">Left</li>'+
 			'<li class="back" id="side_2" data-label="Back">Back</li>'+
 			'<li class="right" id="side_3" data-label="Right">Right</li>'+
 			'<li class="bottom" id="side_4" data-label="Bottom">Bottom</li>'+
-			'<li class="top" id="side_5" data-label="Top">Top</li>'+
+		//	'<li class="top" id="side_5" data-label="Top">Top</li>'+
 		'</ul>'+
 	'</div>';
 	//GAME.$id('start').style.display = 'none';

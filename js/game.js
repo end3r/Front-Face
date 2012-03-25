@@ -9,7 +9,11 @@ GAME.Init = function() {
 	GAME.$id('threedee').onclick = function() { GAME.ThreeD(); };
 	GAME._counter = 10;
 	GAME.API.localStorage('showScore');
-	//GAME.API.geolocation();
+	GAME.$id('geo').onclick = function() { GAME.API.geolocation(); };
+	GAME.$id('ticket').onclick = function() {
+		GAME.$showModal('info about winning the ticket'+GAME.$txt.close);
+		GAME.$id('close').onclick = function() { GAME.$hideModal(); }
+	};
 };
 
 GAME.Start = function(opt) {
@@ -37,27 +41,18 @@ GAME.NewLevel = function(lvl) {
 	}
 
 	// bind clicks to the cards
-	
 	if(lvl) {
 		board.innerHTML = elements;
 	}
-	else {/*
-		// rozmiesc elementy na sciankach
-		var elementz = '';
-		for (var j = 0; j < 6; j++) {
-			var side = '';
-			for (var k = 0; k < 4; k++) {
-				side += '';
-			};
-			GAME.$id('side_'+j).innerHTML = 'sajd '+j;
-		}*/
+	else {
 		lvl = 1;
-		GAME.$id('side_0').innerHTML = '<p id="card_'+0+'"></p><p id="card_'+1+'"></p><p id="card_'+2+'"></p><p id="card_'+3+'"></p>';
-		GAME.$id('side_1').innerHTML = '<p id="card_'+4+'"></p><p id="card_'+5+'"></p><p id="card_'+6+'"></p><p id="card_'+7+'"></p>';
-		GAME.$id('side_2').innerHTML = '<p id="card_'+8+'"></p><p id="card_'+9+'"></p><p id="card_'+10+'"></p><p id="card_'+11+'"></p>';
-		GAME.$id('side_3').innerHTML = '<p id="card_'+12+'"></p><p id="card_'+13+'"></p><p id="card_'+14+'"></p><p id="card_'+15+'"></p>';
-		GAME.$id('side_4').innerHTML = '<p id="card_'+16+'"></p><p id="card_'+17+'"></p><p id="card_'+18+'"></p><p id="card_'+19+'"></p>';
-		GAME.$id('side_5').innerHTML = '[NULL]';
+		for (var i = 0; i < 5; i++) {
+			var cardHTML = '';
+			for (var j = 0; j < 4; j++) {
+				cardHTML += '<p id="card_'+(i*4+j)+'"></p>';
+			}
+			GAME.$id('side_'+i).innerHTML = cardHTML;//'<p id="card_'+(i*4)+'"></p><p id="card_'+(i*4+1)+'"></p><p id="card_'+(i*4+2)+'"></p><p id="card_'+(i*4+3)+'"></p>';
+		}
 	}
 
 	var els = board.getElementsByTagName('p');
@@ -71,8 +66,6 @@ GAME.NewLevel = function(lvl) {
 		var data = GAME.data[((lvl-1)*GAME._counter)+i];
 		GAME._board.push(data, data);
 	}
-
-	console.dir(GAME._board);
 
 	// shuffle array 10 times - just to be sure it's more or less random
 	for (var i = 10; i >= 0; i--) {
@@ -110,8 +103,6 @@ GAME.CardClick = function(card) {
 	if(GAME._active) {
 		var card_id = card.id.split('_')[1],
 			item = GAME._board[card_id];
-
-		console.dir(GAME._board);
 
 		card.onclick = function() {};
 		card.className = 'visible';
@@ -175,6 +166,7 @@ GAME.Form = function(item) {
 	GAME.$id('radio1').onclick = function() { GAME.CheckAnswer(this,item[subject]); };
 	GAME.$id('radio2').onclick = function() { GAME.CheckAnswer(this,item[subject]); };
 	GAME.$id('radio3').onclick = function() { GAME.CheckAnswer(this,item[subject]); };
+	GAME.$id('continue').style.visibility = 'hidden';
 	//document.getElementsByTagName('input').onclick = function() { GAME.CheckAnswer(this); };
 };
 
@@ -204,7 +196,7 @@ GAME.CheckAnswer = function(chosen,correct) {
 
 	GAME.$id('continue').onclick = function() {
 		GAME.$hideModal();
-		if(GAME._questions == 10) {
+		if(GAME._questions == 1) {
 			setTimeout(function(){
 				GAME.$showModal(GAME.$txt.halfway+GAME.$txt.continue);
 				GAME.$id('newLevel').style.visibility = 'visible';
@@ -214,7 +206,7 @@ GAME.CheckAnswer = function(chosen,correct) {
 				};
 			},200);
 		}
-		else if(GAME._questions == 20) {
+		else if(GAME._questions == 2) {
 			setTimeout(function(){
 				GAME.TimerStop();
 				GAME.Page('gameover');
