@@ -345,6 +345,11 @@ footer .score:hover {
 	color: #c60f0b;
 	border-bottom: 1px solid #333;
 }
+footer .social {
+	height: 21px;
+	line-height: 21px;
+	overflow: hidden;
+}
 
 
 .board .cube {

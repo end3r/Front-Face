@@ -5,7 +5,6 @@
 	<title>Front-Face</title>
 	<meta name="author" content="end3r" />
 	<meta name="description" content="" />
-	<meta name="keywords" content="" />
 	<link rel="stylesheet" type="text/css" href="css/style.css" />
 	<link rel="shortcut icon" href="img/favicon.png" />
 	<script src="js/init.js"></script>
@@ -39,7 +38,7 @@
 				<p id="threedee">Make it 3D!</p>
 			</div>
 			<div class="links sublinks">
-				<p id="geo">Geolocate me <span style="display: none; font-size: 14px; line-height: 14px; padding-bottom: 10px;">...and find the shortest way to the conference!</span></p>
+				<p id="geo">Show me the way</p>
 				<p id="ticket">How to win a ticket</p>
 				<p id="score"></p>
 			</div>
@@ -73,11 +72,19 @@
 				<div>Play again &frasl; Close</div>
 			</div>
 		</div>
-		<footer><p><span class="score"></span></p>Twitter | Facebook | Google+</footer>
+		<footer>
+			<p><span class="score"></span></p>
+			<div class="social">
+				<span><g:plusone size="medium" href="http://end3r.com/games/frontface/"></g:plusone></span>
+				<iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fend3r.com%2Fgames%2Ffrontface%2F&amp;send=false&amp;layout=button_count&amp;width=110&amp;show_faces=false&amp;action=like&amp;colorscheme=light&amp;font=segoe+ui&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:110px; height:21px;" allowTransparency="true"></iframe>
+				<a href="https://twitter.com/share" class="twitter-share-button" data-url="http://end3r.com/games/frontface/" data-text="Front-Face" data-count="horizontal">Tweet</a>
+			</div>
+		</footer>
 	</div>
 	<div id="modalBg"></div>
 	<div id="formBg"></div>
 	<script>GAME.Init();</script>
-	<script src="js/csscube.js"></script>
+	<script src="https://apis.google.com/js/plusone.js"></script>
+	<script src="http://platform.twitter.com/widgets.js"></script>
 </body>
 </html>

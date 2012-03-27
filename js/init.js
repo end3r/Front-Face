@@ -76,7 +76,7 @@ GAME.API.localStorage = function(action) {
 					secHTML = (sec < 10) ? '0'+sec : sec;
 			}
 		}
-		GAME.$id('score').innerHTML = 'Your best score: <strong>'+bestPoints+'</strong> points in <strong>'+minHTML+':'+secHTML+'</strong>.';
+		GAME.$id('score').innerHTML = 'Best score: <span>'+bestPoints+'</span> points in <span>'+minHTML+':'+secHTML+'</span>.';
 	}
 };
 
@@ -173,7 +173,7 @@ GAME.ThreeD = function() {
 	    canperspective = false,
 	    cubes = document.querySelectorAll( '.cubecontainer' ),
 	    sides = [ 'front', 'left', 'back', 'right', 'top', 'bottom' ],
-	    nav = out = side = all = t = null;
+	    nav = null, out = null, side = null, all = null, t = null;
 
 	while( i-- ) {
 	  if ( docelm.style[ testprops[ i ] ] !== undefined ) {
