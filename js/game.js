@@ -198,7 +198,7 @@ GAME.CheckAnswer = function(chosen,correct) {
 		GAME.$hideModal();
 		if(GAME._questions == 1) {
 			setTimeout(function(){
-				GAME.$showModal(GAME.$txt.halfway+GAME.$txt.continue);
+				GAME.$showModal(GAME.$txt.halfway+GAME.$txt.continue,'halfway');
 				GAME.$id('newLevel').style.visibility = 'visible';
 				GAME.$id('newLevel').onclick = function() {
 					GAME.$hideModal();
@@ -242,12 +242,13 @@ GAME.Page = function(page) {
 		// HTML5 LOCAL STORAGE
 		GAME.API.localStorage('saveScore');
 
-		var str = GAME.$id('page-gameover').innerHTML;
+		//var str = GAME.$id('page-gameover').innerHTML;
+		var str = GAME.$txt.gameover+GAME.$txt.continue;
 		str = str.replace('[0P]',GAME._points);
-		str = str.replace('[0%]',(GAME._points*5)); // *5, because /20 and *100 to have percents
+		str = str.replace('[0%]',(GAME._points/2));
 		str = str.replace('[0M]',~~(GAME._time/60));
 		str = str.replace('[0S]',(GAME._time%60));
-		GAME.$showModal(str,'page');
+		GAME.$showModal(str,'gameover');
 	}
 	else {
 		GAME.$showModal(''+

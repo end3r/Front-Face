@@ -42,7 +42,8 @@ GAME.$form = function(item,question,answers) {
 };
 
 GAME.$txt = {
-	'halfway': "<div>Nice, You're half way thru! You've managed to solve the first 10 pairs of photos, let's see how You'll handle the second part of the game.</div>",
+	'halfway': "<h2>Nice, You're half way through!</h2><div>You've managed to solve the first 10 pairs of photos, let's see how You'll handle the second part of the game!</div><p class='modal-img'></p>",
+	'gameover': "<h2>You've finished the game, congratulations!</h2><div>You've scored <strong>[0P]</strong> points out of possible 200, that's <strong>[0%]%</strong>!</div><div>You did it in <strong>[0M] minutes and [0S] seconds</strong>!</div><p class='modal-img'></p>",
 	'continue': "<div class='continue'><span id='newLevel'>Continue</span></div>",
 	'correct': "Congratulations, your answer is correct!",
 	'wrong': "Oh no, wrong answer, no points this time...",

@@ -37,6 +37,7 @@ h1 a,
 .start,
 .panel .links p,
 .modal .continue span,
+.modal h2,
 .page h2,
 .page h3,
 .howto,
@@ -242,6 +243,24 @@ h1 a img {
 	padding: 5px 15px;
 	font-size: 22px;
 }
+.modal.halfway h2,
+.modal.gameover h2 {
+	font-size: 28px;
+	margin-bottom: 15px;
+}
+.modal.halfway .modal-img {
+	background: #d5d4d4 url(../img/halfway.jpg) 0 0 no-repeat;
+	width: 408px;
+	height: 119px;
+	margin: 40px auto 0;
+}
+.modal.gameover .modal-img {
+	background: #d5d4d4 url(../img/gameover.jpg) 0 0 no-repeat;
+	width: 408px;
+	height: 119px;
+	margin: 40px auto 0;
+}
+
 .modalBig {
 	width: 800px;
 }
