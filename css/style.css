@@ -38,6 +38,7 @@ h1 a,
 .panel .links p,
 .modal .continue span,
 .modal h2,
+.modal h3,
 .page h2,
 .page h3,
 .howto,
@@ -94,11 +95,26 @@ h1 a img {
 	height: 100px;
 	float: left;
 	margin: 0 10px 10px 0;
-	background: #ccc url(../img/people.jpg) 0 0 no-repeat;
+	/*background: #ccc url(../img/people.jpg) 0 0 no-repeat;*/
 	cursor: pointer;
 	border-radius: 10px;
 	box-shadow: 1px 1px 1px #333;/*
 	-moz-transition: box-shadow 0.5s;*/
+	position: relative;
+}
+.board p span {
+	position: absolute;
+	display: block;
+	width: 100%;
+	height: 100%;
+	border-radius: 10px;
+	z-index: 5;
+}
+.board p span.back {
+	background: #ccc url(../img/people.jpg) 0 0 no-repeat;
+}
+.board p span.front {
+	background: #ccc url(../img/people.jpg) 0 0 no-repeat;
 }
 .board p:nth-child(5n-4) {
 	margin-left: 20px;
@@ -154,7 +170,7 @@ h1 a img {
 	color: #c60f0b;
 }
 .panel .links.sublinks {
-	padding: 35px 20px 0;
+	padding: 5px 20px 0;
 }
 .panel .links.sublinks p {
 	font-size: 20px;
@@ -243,8 +259,18 @@ h1 a img {
 	padding: 5px 15px;
 	font-size: 22px;
 }
+.modal .continue span.again {
+	padding-right: 15px;
+}
+.modal .continue span.again a {
+	color: #fff;
+}
+.modal .continue span.again a:hover {
+	text-decoration: none;
+}
 .modal.halfway h2,
-.modal.gameover h2 {
+.modal.gameover h2,
+.modal.winticket h2 {
 	font-size: 28px;
 	margin-bottom: 15px;
 }
@@ -254,11 +280,20 @@ h1 a img {
 	height: 119px;
 	margin: 40px auto 0;
 }
+.modal.gameover {
+	width: 600px;
+}
 .modal.gameover .modal-img {
 	background: #d5d4d4 url(../img/gameover.jpg) 0 0 no-repeat;
-	width: 408px;
-	height: 119px;
+	width: 389px;
+	height: 177px;
 	margin: 40px auto 0;
+}
+.modal.winticket ol {
+	padding-left: 30px;
+}
+.modal.winticket ol li {
+	padding-bottom: 10px;
 }
 
 .modalBig {

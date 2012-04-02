@@ -11,7 +11,7 @@ GAME.Init = function() {
 	GAME.API.localStorage('showScore');
 	GAME.$id('geo').onclick = function() { GAME.API.geolocation(); };
 	GAME.$id('ticket').onclick = function() {
-		GAME.$showModal('info about winning the ticket'+GAME.$txt.close);
+		GAME.$showModal(GAME.$txt.winticket+GAME.$txt.close,'winticket');
 		GAME.$id('close').onclick = function() { GAME.$hideModal(); }
 	};
 };
@@ -37,7 +37,7 @@ GAME.NewLevel = function(lvl) {
 	// generate HTML structure of the game board
 	var board = GAME.$id('board');
 	for (var i = 0, elements = ''; i < GAME._counter*2; i++) {
-		elements += '<p id="card_'+i+'"></p>';
+		elements += '<p id="card_'+i+'"><span class="front" id="front_'+i+'"></span><span class="back"></span></p>';
 	}
 
 	// bind clicks to the cards
@@ -83,6 +83,8 @@ GAME.HideCards = function() {
 	myItem2.className = '';
 	myItem2.style.backgroundPosition = '';
 	GAME._active = true;
+	GAME.$id('front_'+item1.card_id).style.zIndex = '1';
+	GAME.$id('front_'+item2.card_id).style.zIndex = '1';
 	myItem1.onclick = function() { GAME.CardClick(this); };
 	myItem2.onclick = function() { GAME.CardClick(this); };
 };
@@ -107,8 +109,9 @@ GAME.CardClick = function(card) {
 		card.onclick = function() {};
 		card.className = 'visible';
 		card.style.backgroundPosition = '-'+(item.id*100)+'px 0';
+		GAME.$id('front_'+card_id).style.backgroundPosition = '-'+(item.id*100)+'px 0';
+		GAME.$id('front_'+card_id).style.zIndex = '10';
 		GAME._visible.push({'item_id':item.id,'card_id':card_id});
-
 		if(GAME._visible.length == 2) { // two visible cards
 			if(GAME._visible[0].item_id == GAME._visible[1].item_id) { // the same card ID
 				// show the form with the question
@@ -196,7 +199,7 @@ GAME.CheckAnswer = function(chosen,correct) {
 
 	GAME.$id('continue').onclick = function() {
 		GAME.$hideModal();
-		if(GAME._questions == 1) {
+		if(GAME._questions == 10) {
 			setTimeout(function(){
 				GAME.$showModal(GAME.$txt.halfway+GAME.$txt.continue,'halfway');
 				GAME.$id('newLevel').style.visibility = 'visible';
@@ -206,7 +209,7 @@ GAME.CheckAnswer = function(chosen,correct) {
 				};
 			},200);
 		}
-		else if(GAME._questions == 2) {
+		else if(GAME._questions == 20) {
 			setTimeout(function(){
 				GAME.TimerStop();
 				GAME.Page('gameover');
@@ -243,12 +246,15 @@ GAME.Page = function(page) {
 		GAME.API.localStorage('saveScore');
 
 		//var str = GAME.$id('page-gameover').innerHTML;
-		var str = GAME.$txt.gameover+GAME.$txt.continue;
+		var str = GAME.$txt.gameover;
 		str = str.replace('[0P]',GAME._points);
 		str = str.replace('[0%]',(GAME._points/2));
 		str = str.replace('[0M]',~~(GAME._time/60));
 		str = str.replace('[0S]',(GAME._time%60));
 		GAME.$showModal(str,'gameover');
+		GAME.$id('close').onclick = function() {
+			GAME.$hideModal();
+		}
 	}
 	else {
 		GAME.$showModal(''+

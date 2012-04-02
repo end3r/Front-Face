@@ -43,7 +43,9 @@ GAME.$form = function(item,question,answers) {
 
 GAME.$txt = {
 	'halfway': "<h2>Nice, You're half way through!</h2><div>You've managed to solve the first 10 pairs of photos, let's see how You'll handle the second part of the game!</div><p class='modal-img'></p>",
-	'gameover': "<h2>You've finished the game, congratulations!</h2><div>You've scored <strong>[0P]</strong> points out of possible 200, that's <strong>[0%]%</strong>!</div><div>You did it in <strong>[0M] minutes and [0S] seconds</strong>!</div><p class='modal-img'></p>",
+	'gameover': "<h2>You've finished the game, congratulations!</h2><div>You've scored <strong>[0P]</strong> points out of possible 200, that's <strong>[0%]%</strong>!</div><div>You did it in <strong>[0M] minutes</strong> and <strong>[0S] seconds</strong>!</div><p class='modal-img'></p><div class='continue'><span class='again'><a href='/'>Play again</a></span><span id='close'>Close</span></div>",
+	'winticket': "<h2>How to win a ticket</h2><ol><li>Play the game and finish it.</li><li>Tweet Your score.</li><li>Leave a <a target='_blank' href=''>comment on the blog</a> with a link to the tweet with Your score.</li><li>Keep Your fingers crossed!</li></ol>",
+	'score': "Score",
 	'continue': "<div class='continue'><span id='newLevel'>Continue</span></div>",
 	'correct': "Congratulations, your answer is correct!",
 	'wrong': "Oh no, wrong answer, no points this time...",
@@ -89,7 +91,7 @@ GAME.API.geolocation = function() {
 	// Demo by Robert Nyman taken from:
 	// http://robertnyman.com/html5/geolocation/current-location-and-directions.html
 
-	GAME.$showModal('<div id="map-container"><div id="map"></div><div id="map-directions"></div></div>'+GAME.$txt.close,'modalBig');
+	GAME.$showModal('<div id="map-container"><div id="map">Loading...</div><div id="map-directions"></div></div>'+GAME.$txt.close,'modalBig');
 	GAME.$id('close').onclick = function() { GAME.$hideModal(); }
 
 	var directionsService = new google.maps.DirectionsService(),
