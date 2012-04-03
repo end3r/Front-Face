@@ -3,16 +3,25 @@ GAME.Init = function() {
 	for (var i = 10; i >= 0; i--) {
 		GAME.shuffleArray(GAME.data);
 	}
+	GAME._counter = 10;
 	GAME.$id('start').onclick = function() { if(!GAME._active) GAME.Start(); };
 	GAME.$id('howto').onclick = function() { GAME.Page('howto'); };
 	GAME.$id('about').onclick = function() { GAME.Page('about'); };
 	GAME.$id('threedee').onclick = function() { GAME.ThreeD(); };
-	GAME._counter = 10;
-	GAME.API.localStorage('showScore');
 	GAME.$id('geo').onclick = function() { GAME.API.geolocation(); };
 	GAME.$id('ticket').onclick = function() {
 		GAME.$showModal(GAME.$txt.winticket+GAME.$txt.close,'winticket');
-		GAME.$id('close').onclick = function() { GAME.$hideModal(); }
+	};
+	var actualScore = GAME.API.localStorage('showScore');
+	GAME.$id('score').onclick = function() {
+
+		var str = GAME.$txt.showscore;
+		str = str.replace('[0P]',actualScore.points);
+		str = str.replace('[0%]',(actualScore.points/2));
+		str = str.replace('[0M]',actualScore.minutes);
+		str = str.replace('[0S]',actualScore.seconds);
+		str = str.replace('[0C]',actualScore.trials);
+		GAME.$showModal(str+GAME.$txt.close,'showscore');
 	};
 };
 
@@ -24,6 +33,9 @@ GAME.Start = function(opt) {
 	else {
 		GAME.NewLevel(1);
 	}
+	if(GAME._time) {
+		GAME.TimerStop();
+	}
 	GAME._time = 0;
 	GAME.Timer();
 	GAME._active = true;
@@ -31,6 +43,11 @@ GAME.Start = function(opt) {
 	GAME._points = 0;
 	GAME._trials = 0;
 	GAME._questions = 0;
+
+	GAME.$id('time').innerHTML = '00:00';
+	GAME.$id('points').innerHTML = '0';
+	GAME.$id('trials').innerHTML = '0';
+	GAME.$id('questions').innerHTML = '0';
 };
 
 GAME.NewLevel = function(lvl) {
@@ -83,8 +100,10 @@ GAME.HideCards = function() {
 	myItem2.className = '';
 	myItem2.style.backgroundPosition = '';
 	GAME._active = true;
-	GAME.$id('front_'+item1.card_id).style.zIndex = '1';
-	GAME.$id('front_'+item2.card_id).style.zIndex = '1';
+	if(GAME.$id('front_'+item1.card_id)) {
+		GAME.$id('front_'+item1.card_id).style.zIndex = '1';
+		GAME.$id('front_'+item2.card_id).style.zIndex = '1';
+	}
 	myItem1.onclick = function() { GAME.CardClick(this); };
 	myItem2.onclick = function() { GAME.CardClick(this); };
 };
@@ -109,8 +128,10 @@ GAME.CardClick = function(card) {
 		card.onclick = function() {};
 		card.className = 'visible';
 		card.style.backgroundPosition = '-'+(item.id*100)+'px 0';
-		GAME.$id('front_'+card_id).style.backgroundPosition = '-'+(item.id*100)+'px 0';
-		GAME.$id('front_'+card_id).style.zIndex = '10';
+		if(GAME.$id('front_'+card_id)) {
+			GAME.$id('front_'+card_id).style.backgroundPosition = '-'+(item.id*100)+'px 0';
+			GAME.$id('front_'+card_id).style.zIndex = '10';
+		}
 		GAME._visible.push({'item_id':item.id,'card_id':card_id});
 		if(GAME._visible.length == 2) { // two visible cards
 			if(GAME._visible[0].item_id == GAME._visible[1].item_id) { // the same card ID
@@ -176,7 +197,9 @@ GAME.Form = function(item) {
 GAME.CheckAnswer = function(chosen,correct) {
 	if(chosen.value == correct) {
 		GAME.$id('message').innerHTML = GAME.$txt.correct;
-		chosen.style.background = 'green';
+		GAME.$id('message').style.color = 'green';
+		GAME.$id('message').style.fontWeight = 'bold';
+		//chosen.style.background = 'green';
 		GAME._points += 10;
 		GAME.$id('points').innerHTML = GAME._points;
 		GAME.$id(chosen.id+'label').style.color = 'green';
@@ -184,6 +207,8 @@ GAME.CheckAnswer = function(chosen,correct) {
 	}
 	else {
 		GAME.$id('message').innerHTML = GAME.$txt.wrong;
+		GAME.$id('message').style.color = 'red';
+		GAME.$id('message').style.fontWeight = 'bold';
 		GAME.$id(chosen.id+'label').style.color = 'red';
 		GAME.$id(chosen.id+'label').innerHTML;// += ' ✗';
 	}
@@ -199,7 +224,7 @@ GAME.CheckAnswer = function(chosen,correct) {
 
 	GAME.$id('continue').onclick = function() {
 		GAME.$hideModal();
-		if(GAME._questions == 10) {
+		if(GAME._questions == 1) {
 			setTimeout(function(){
 				GAME.$showModal(GAME.$txt.halfway+GAME.$txt.continue,'halfway');
 				GAME.$id('newLevel').style.visibility = 'visible';
@@ -209,7 +234,7 @@ GAME.CheckAnswer = function(chosen,correct) {
 				};
 			},200);
 		}
-		else if(GAME._questions == 20) {
+		else if(GAME._questions == 2) {
 			setTimeout(function(){
 				GAME.TimerStop();
 				GAME.Page('gameover');
@@ -245,24 +270,23 @@ GAME.Page = function(page) {
 		// HTML5 LOCAL STORAGE
 		GAME.API.localStorage('saveScore');
 
-		//var str = GAME.$id('page-gameover').innerHTML;
+		var minHTML = ~~(GAME._time/60),
+			sec = (GAME._time%60),
+			secHTML = (sec < 10) ? '0'+sec : sec,
+			timeHTML = minHTML+':'+secHTML;
+
 		var str = GAME.$txt.gameover;
 		str = str.replace('[0P]',GAME._points);
+		str = str.replace('[TWEET]',GAME.$txt.tweet);
+		str = str.replace('[0P]',GAME._points);
 		str = str.replace('[0%]',(GAME._points/2));
-		str = str.replace('[0M]',~~(GAME._time/60));
-		str = str.replace('[0S]',(GAME._time%60));
+		str = str.replace('[0T]',timeHTML);
+		str = str.replace('[0M]',minHTML);
+		str = str.replace('[0S]',secHTML);
 		GAME.$showModal(str,'gameover');
-		GAME.$id('close').onclick = function() {
-			GAME.$hideModal();
-		}
 	}
 	else {
 		GAME.$showModal(''+
-			GAME.$id('page-'+page).innerHTML+GAME.$txt.close,
-			'page',
-			'page-'+page);
-		GAME.$id('close').onclick = function() {
-			GAME.$hideModal();
-		}
+			GAME.$id('page-'+page).innerHTML+GAME.$txt.close, 'page', 'page-'+page);
 	}
 };

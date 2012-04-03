@@ -21,6 +21,9 @@ GAME.$showModal = function(content,className,idName) {
 	if(content) {
 		GAME.$id('formBg').innerHTML = '<div class="modal'+classHTML+'"'+idHTML+'>'+content+'</div>';
 	}
+	if(GAME.$id('close')) {
+		GAME.$id('close').onclick = function() { GAME.$hideModal(); }
+	}
 };
 
 GAME.$hideModal = function() {
@@ -43,12 +46,13 @@ GAME.$form = function(item,question,answers) {
 
 GAME.$txt = {
 	'halfway': "<h2>Nice, You're half way through!</h2><div>You've managed to solve the first 10 pairs of photos, let's see how You'll handle the second part of the game!</div><p class='modal-img'></p>",
-	'gameover': "<h2>You've finished the game, congratulations!</h2><div>You've scored <strong>[0P]</strong> points out of possible 200, that's <strong>[0%]%</strong>!</div><div>You did it in <strong>[0M] minutes</strong> and <strong>[0S] seconds</strong>!</div><p class='modal-img'></p><div class='continue'><span class='again'><a href='/'>Play again</a></span><span id='close'>Close</span></div>",
-	'winticket': "<h2>How to win a ticket</h2><ol><li>Play the game and finish it.</li><li>Tweet Your score.</li><li>Leave a <a target='_blank' href=''>comment on the blog</a> with a link to the tweet with Your score.</li><li>Keep Your fingers crossed!</li></ol>",
-	'score': "Score",
+	'gameover': "<h2>You've finished the game, congratulations!</h2><div>You've scored <strong>[0P]</strong> points out of possible 200, that's <strong>[0%]%</strong>!</div><div>You did it in <strong>[0M] minutes</strong> and <strong>[0S] seconds</strong>!</div><p class='modal-img'></p><div class='tweet'><a  href='[TWEET]'>Tweet Your score!</a></div><div class='remember'><strong>REMEMBER: </strong>Leave a <strong><a href=''>comment</a></strong> (with a link to the tweet with Your score) to have a chance of winning the ticket for the Front-Trends 2012 conference.</div><div class='continue'><span class='again'><a href='/'>Play again</a></span><span id='close'>Close</span></div>",
+	'winticket': "<h2>How to win a ticket</h2><ol><li>Play the game and finish it.</li><li>Tweet Your score.</li><li>Leave a <a target='_blank' href=''>comment on the blog</a> with a link to the tweet with Your score.</li><li>Keep Your fingers crossed!</li><li>The lucky winner will be picked at random.</li></ol>",
+	'showscore': "<h2>Your best score</h2><div>Your best score: <strong>[0P] points</strong> out of possible 200.</div><div>This gives You <strong>[0%]%</strong> overall points!</div><div>You finished the game in <strong>[0M] minutes</strong> and <strong>[0S] seconds</strong>!</div><div>In the given time You compared the photos [0C] times.</div><div>Congratulations!</div>",
 	'continue': "<div class='continue'><span id='newLevel'>Continue</span></div>",
 	'correct': "Congratulations, your answer is correct!",
-	'wrong': "Oh no, wrong answer, no points this time...",
+	'wrong': "Wrong answer, maybe next time...",
+	'tweet': "https://twitter.com/intent/tweet?original_referer=http%3A%2F%2Fend3r.com%2Fgames%2Ffrontface%2F&text=I’ve played Front-Face and scored [0P] points in [0T], can you beat that? Play to win 1 ticket for @fronttrends conf!&url=http%3A%2F%2Fend3r.com%2Fgames%2Ffrontface%2F",
 	'close': "<div class='continue'><span id='close'>Close</span></div>"
 };
 
@@ -66,7 +70,8 @@ GAME.API.localStorage = function(action) {
 			var storageTime = localStorage.getItem('frontface_time') || 0,
 				minHTML = ~~(storageTime/60),
 				sec = (storageTime%60),
-				secHTML = (sec < 10) ? '0'+sec : sec;
+				secHTML = (sec < 10) ? '0'+sec : sec,
+				trials = localStorage.getItem('frontface_trials') || 0;
 		}
 		else if(action == 'saveScore') {
 			if(GAME._points > bestPoints) { // congrats, you beat the score - new personal best
@@ -74,25 +79,28 @@ GAME.API.localStorage = function(action) {
 				localStorage.setItem('frontface_points', GAME._points);
 				localStorage.setItem('frontface_trials', GAME._trials);
 				localStorage.setItem('frontface_time', GAME._time);
-				var minHTML = ~~(GAME._time/60),
-					sec = (GAME._time%60),
-					secHTML = (sec < 10) ? '0'+sec : sec;
 			}
+			var minHTML = ~~(GAME._time/60),
+				sec = (GAME._time%60),
+				secHTML = (sec < 10) ? '0'+sec : sec;
 		}
 		GAME.$id('score').innerHTML = 'Best score: <span>'+bestPoints+'</span> points in <span>'+minHTML+':'+secHTML+'</span>.';
+		return {
+			'points': bestPoints,
+			'minutes': minHTML,
+			'seconds': secHTML,
+			'trials': trials
+		}
 	}
 };
 
-GAME.API.offline = function() {
-	// offline
-};
+//GAME.API.offline = function() {};
 
 GAME.API.geolocation = function() {
 	// Demo by Robert Nyman taken from:
 	// http://robertnyman.com/html5/geolocation/current-location-and-directions.html
 
 	GAME.$showModal('<div id="map-container"><div id="map">Loading...</div><div id="map-directions"></div></div>'+GAME.$txt.close,'modalBig');
-	GAME.$id('close').onclick = function() { GAME.$hideModal(); }
 
 	var directionsService = new google.maps.DirectionsService(),
 		directionsDisplay = new google.maps.DirectionsRenderer(),
@@ -101,7 +109,6 @@ GAME.API.geolocation = function() {
 					origin : (start.coords)? new google.maps.LatLng(start.lat, start.lng) : start.address,
 					destination : "Mińska 25, Warszawa",
 					travelMode : google.maps.DirectionsTravelMode.DRIVING
-					// Exchanging DRIVING to WALKING above can prove quite amusing :-)
 				},
 				mapOptions = {
 					zoom: 10,
@@ -154,6 +161,9 @@ GAME.API.geolocation = function() {
 GAME.ThreeD = function() {
 	// Demo by Chris Heilmann taken from:
 	// http://hacks.mozilla.org/2012/03/getting-you-started-for-the-css-3d-transform-dev-derby-15-minute-screencast/
+
+	GAME.TimerStop();
+	GAME.$id('')
 
 	var threeHTML = ''+
 	'<div class="cubecontainer">'+

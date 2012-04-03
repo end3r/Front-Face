@@ -23,7 +23,7 @@ GAME.data = [ // id | name | website | twitter | topic
 	{
 		id: 4,
 		name: 'David DeSandro',
-		website: '',
+		website: 'desandro.com',
 		twitter: 'desandro',
 		topic: 'Mobile Safari: bring your machete'
 	},
@@ -46,7 +46,7 @@ GAME.data = [ // id | name | website | twitter | topic
 		name: 'Harry Roberts',
 		website: 'csswizardry.com',
 		twitter: 'csswizardry',
-		topic: 'Building front-ends without the headaches'
+		topic: 'Breaking good habits'
 	},
 	{
 		id: 8,
@@ -81,7 +81,7 @@ GAME.data = [ // id | name | website | twitter | topic
 		name: 'Lea Verou',
 		website: 'lea.verou.me',
 		twitter: 'leaverou',
-		topic: ''
+		topic: 'CSS in the 4th dimension: not your daddy’s CSS animations'
 	},
 	{
 		id: 13,
@@ -102,7 +102,7 @@ GAME.data = [ // id | name | website | twitter | topic
 		name: 'Rachel Andrew',
 		website: 'rachelandrew.co.uk',
 		twitter: 'rachelandrew',
-		topic: ''
+		topic: 'Pushing the boundaries without breaking the web'
 	},
 	{
 		id: 16,
@@ -123,7 +123,7 @@ GAME.data = [ // id | name | website | twitter | topic
 		name: 'Tiffany Conroy',
 		website: 'tif.ca',
 		twitter: 'theophani',
-		topic: ''
+		topic: 'Design processes, not interfaces'
 	},
 	{
 		id: 19,
