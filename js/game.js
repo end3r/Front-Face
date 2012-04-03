@@ -224,7 +224,7 @@ GAME.CheckAnswer = function(chosen,correct) {
 
 	GAME.$id('continue').onclick = function() {
 		GAME.$hideModal();
-		if(GAME._questions == 1) {
+		if(GAME._questions == 10) {
 			setTimeout(function(){
 				GAME.$showModal(GAME.$txt.halfway+GAME.$txt.continue,'halfway');
 				GAME.$id('newLevel').style.visibility = 'visible';
@@ -234,7 +234,7 @@ GAME.CheckAnswer = function(chosen,correct) {
 				};
 			},200);
 		}
-		else if(GAME._questions == 2) {
+		else if(GAME._questions == 20) {
 			setTimeout(function(){
 				GAME.TimerStop();
 				GAME.Page('gameover');

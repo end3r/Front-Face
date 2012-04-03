@@ -1,0 +1,288 @@
+/* 3D cube */
+.board .cube {
+  padding: 0;
+}
+.board .cube p {
+  margin: 0;
+  display: block;
+  float: left;
+}
+.board .cube p {
+  -webkit-transition: none;
+     -moz-transition: none;
+      -ms-transition: none;
+       -o-transition: none;
+          transition: none;
+}
+.perspective .board .cubecontainer {
+	width: 580px;
+	height: 400px;
+}
+.perspective .board .cubecontainer nav {
+	margin: 0 auto;
+	text-align: center;
+}
+nav button {
+	font-size: 20px;
+	display: inline-block;
+	text-align: center;
+	cursor: pointer;
+	background: #e62f2b;
+	border-radius: 5px;
+	padding: 5px 10px;
+	box-shadow: 0 0 3px #a30906 inset, 1px 1px 1px #666;
+	color: #f3f3f4;
+	margin: 10px 10px;
+}
+.cube li { 
+  float: left;
+  padding-right: 1em;
+}
+.cube {
+  overflow: auto;
+}
+.perspective .cube li {
+  float: none;
+  padding: 0;
+}
+.perspective .cube {
+  overflow: visible;
+  margin: 80px 0 0 90px;
+}
+.perspective .cubecontainer nav li {
+  display: inline;
+}
+.cube img {
+  display: block;
+  width: 100px;
+  height: 100px;
+}
+.perspective .cube img {
+  display: block;
+  width: 200px;
+  height: 200px;
+  padding: 0;
+}
+button {
+  border: none;
+  background: transparent;
+  font-weight: bold;
+  color: #ccc;
+  font-size: 15px;
+  padding: 5px 10px;
+}
+.perspective .cube li{
+  background: rgba(150,150,150,0.8);
+  font-size:50px;
+  line-height: 200px;
+  text-align: center;
+  height: 200px;
+  width: 200px;
+  float:none;
+}
+.perspective .cubecontainer {
+  position: relative;
+  height: 300px;
+  width: 500px;
+  -webkit-perspective: 800px;
+     -moz-perspective: 800px;
+      -ms-perspective: 800px;
+       -o-perspective: 800px;
+          perspective: 800px; 
+  -webkit-perspective-origin: 50% 50%;
+     -moz-perspective-origin: 50% 50%;
+      -ms-perspective-origin: 50% 50%;
+       -o-perspective-origin: 50% 50%;
+          perspective-origin: 50% 50%;
+}
+.perspective .cube {
+  display: block;  
+  position: absolute; 
+  height: 200px;  
+  width: 200px;
+  top: 60px;
+  left:100px;
+  -webkit-transform-style: preserve-3d;
+     -moz-transform-style: preserve-3d;
+      -ms-transform-style: preserve-3d;
+       -o-transform-style: preserve-3d;
+          transform-style: preserve-3d;
+  -webkit-transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+     -moz-transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+      -ms-transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+       -o-transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+          transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+  -webkit-transition: 1s;
+     -moz-transition: 1s;
+      -ms-transition: 1s;
+       -o-transition: 1s;
+          transition: 1s;
+}
+.perspective .cube.back {
+  -webkit-transform: rotateX(0deg) rotateY(180deg) rotateZ(0deg);
+     -moz-transform: rotateX(0deg) rotateY(180deg) rotateZ(0deg);
+      -ms-transform: rotateX(0deg) rotateY(180deg) rotateZ(0deg);
+       -o-transform: rotateX(0deg) rotateY(180deg) rotateZ(0deg);
+          transform: rotateX(0deg) rotateY(180deg) rotateZ(0deg);
+}
+.perspective .cube.right {
+  -webkit-transform: rotateX(0deg) rotateY(90deg) rotateZ(0deg);
+     -moz-transform: rotateX(0deg) rotateY(90deg) rotateZ(0deg);
+      -ms-transform: rotateX(0deg) rotateY(90deg) rotateZ(0deg);
+       -o-transform: rotateX(0deg) rotateY(90deg) rotateZ(0deg);
+          transform: rotateX(0deg) rotateY(90deg) rotateZ(0deg);
+}
+.perspective .cube.left {
+  -webkit-transform: rotateX(0deg) rotateY(-90deg) rotateZ(0deg);
+     -moz-transform: rotateX(0deg) rotateY(-90deg) rotateZ(0deg);
+      -ms-transform: rotateX(0deg) rotateY(-90deg) rotateZ(0deg);
+       -o-transform: rotateX(0deg) rotateY(-90deg) rotateZ(0deg);
+          transform: rotateX(0deg) rotateY(-90deg) rotateZ(0deg);
+}
+.perspective .cube.front {
+  -webkit-transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+     -moz-transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+      -ms-transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+       -o-transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+          transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+}
+.perspective .cube.top {
+  -webkit-transform: rotateX(-90deg) rotateY(0deg) rotateZ(0deg);
+     -moz-transform: rotateX(-90deg) rotateY(0deg) rotateZ(0deg);
+      -ms-transform: rotateX(-90deg) rotateY(0deg) rotateZ(0deg);
+       -o-transform: rotateX(-90deg) rotateY(0deg) rotateZ(0deg);
+          transform: rotateX(-90deg) rotateY(0deg) rotateZ(0deg);
+}
+.perspective .cube.bottom {
+  -webkit-transform: rotateX(90deg) rotateY(0deg) rotateZ(0deg);
+     -moz-transform: rotateX(90deg) rotateY(0deg) rotateZ(0deg);
+      -ms-transform: rotateX(90deg) rotateY(0deg) rotateZ(0deg);
+       -o-transform: rotateX(90deg) rotateY(0deg) rotateZ(0deg);
+          transform: rotateX(90deg) rotateY(0deg) rotateZ(0deg);
+}
+.perspective .front, .perspective .back, .perspective .top, 
+.perspective .left, .perspective .bottom, .perspective .right {
+  position: absolute;  
+  height: 200px;  
+  width: 200px;
+  -webkit-backface-visibility: visible;
+     -moz-backface-visibility: visible;
+      -ms-backface-visibility: visible;
+       -o-backface-visibility: visible;
+          backface-visibility: visible;
+}
+.perspective .front {
+  -webkit-transform: translate3d(0 ,0, 100px);
+     -moz-transform: translate3d(0, 0, 100px); 
+      -ms-transform: translate3d(0, 0, 100px);
+       -o-transform: translate3d(0, 0, 100px);
+          transform: translate3d(0, 0, 100px);
+}
+.perspective .back {
+  -webkit-transform: rotateY(180deg) translate3d(0, 0, 100px);
+     -moz-transform: rotateY(180deg) translate3d(0, 0, 100px);
+      -ms-transform: rotateY(180deg) translate3d(0, 0, 100px);
+       -o-transform: rotateY(180deg) translate3d(0, 0, 100px);
+          transform: rotateY(180deg) translate3d(0, 0, 100px);
+}
+.perspective .left {
+  -webkit-transform: rotateY(90deg) translate3d(0, 0, 100px);
+     -moz-transform: rotateY(90deg) translate3d(0, 0, 100px);
+      -ms-transform: rotateY(90deg) translate3d(0, 0, 100px);
+       -o-transform: rotateY(90deg) translate3d(0, 0, 100px);
+          transform: rotateY(90deg) translate3d(0, 0, 100px);
+}
+.perspective .right {
+  -webkit-transform: rotateY(-90deg) translate3d(0, 0, 100px);
+     -moz-transform: rotateY(-90deg) translate3d(0, 0, 100px);
+      -ms-transform: rotateY(-90deg) translate3d(0, 0, 100px);
+       -o-transform: rotateY(-90deg) translate3d(0, 0, 100px);
+          transform: rotateY(-90deg) translate3d(0, 0, 100px);
+}
+.perspective .top {
+  -webkit-transform: rotateX(90deg) translate3d(0, 0, 100px);
+     -moz-transform: rotateX(90deg) translate3d(0, 0, 100px);
+      -ms-transform: rotateX(90deg) translate3d(0, 0, 100px);
+       -o-transform: rotateX(90deg) translate3d(0, 0, 100px);
+          transform: rotateX(90deg) translate3d(0, 0, 100px);
+}
+.perspective .bottom {
+  -webkit-transform: rotateX(-90deg) translate3d(0, 0, 100px);
+     -moz-transform: rotateX(-90deg) translate3d(0, 0, 100px);
+      -ms-transform: rotateX(-90deg) translate3d(0, 0, 100px);
+       -o-transform: rotateX(-90deg) translate3d(0, 0, 100px);
+          transform: rotateX(-90deg) translate3d(0, 0, 100px);
+}
+
+/* Card Flip */
+.board {
+  -webkit-perspective: 800px;
+     -moz-perspective: 800px;
+      -ms-perspective: 800px;
+       -o-perspective: 800px;
+          perspective: 800px;
+}
+.board p {
+  height: 100px;
+  width: 100px;
+  -webkit-transform-style: preserve-3d;
+     -moz-transform-style: preserve-3d;
+      -ms-transform-style: preserve-3d;
+       -o-transform-style: preserve-3d;
+          transform-style: preserve-3d;
+  -webkit-transition: .3s linear;
+     -moz-transition: .3s linear;
+      -ms-transition: .3s linear;
+       -o-transition: .3s linear;
+          transition: .3s linear;
+  -webkit-transform: rotateY(180deg);
+     -moz-transform: rotateY(180deg);
+      -ms-transform: rotateY(180deg);
+       -o-transform: rotateY(180deg);
+          transform: rotateY(180deg);
+}
+.board p.visible, .board p.disabled {
+  -webkit-transform: rotateY(0deg); 
+     -moz-transform: rotateY(0deg); 
+      -ms-transform: rotateY(0deg); 
+       -o-transform: rotateY(0deg); 
+          transform: rotateY(0deg); 
+}
+.board.visible span.front {
+  z-index: 1;
+}  
+.board.visible span.back {
+  z-index: 10;
+}
+span.front {
+  background: url(../img/people.jpg) 0 0;
+  z-index: 10;
+  height: 100px;
+  width: 100px;
+  -webkit-transform: translateZ(0);
+     -moz-transform: translateZ(0);
+      -ms-transform: translateZ(0);
+       -o-transform: translateZ(0);
+          transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
+     -moz-backface-visibility: hidden;
+      -ms-backface-visibility: hidden;
+       -o-backface-visibility: hidden;
+          backface-visibility: hidden;
+}
+span.back {
+  z-index: 1;
+  background: url(../img/people.jpg) -100px 0;
+  height: 100px;
+  width: 100px;
+  -webkit-transform: translateZ(0) rotateY(180deg);
+     -moz-transform: translateZ(0) rotateY(180deg);
+      -ms-transform: translateZ(0) rotateY(180deg);
+       -o-transform: translateZ(0) rotateY(180deg);
+          transform: translateZ(0) rotateY(180deg);
+  -webkit-backface-visibility: hidden;
+     -moz-backface-visibility: hidden;
+      -ms-backface-visibility: hidden;
+       -o-backface-visibility: hidden;
+          backface-visibility: hidden;
+}
