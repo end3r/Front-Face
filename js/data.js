@@ -36,10 +36,10 @@ GAME.data = [ // id | name | website | twitter | topic
 	},
 	{
 		id: 6,
-		name: 'Hannah Donovan',
-		website: 'hannahdonovan.com',
-		twitter: 'han',
-		topic: ''
+		name: 'Bartosz Szopka',
+		website: 'bartaz.github.com',
+		twitter: 'bartaz',
+		topic: 'Learning to teach'
 	},
 	{
 		id: 7,
@@ -53,7 +53,7 @@ GAME.data = [ // id | name | website | twitter | topic
 		name: 'Jina Bolton',
 		website: 'sushiandrobots.com',
 		twitter: 'jina',
-		topic: ''
+		topic: 'Style guide-driven UI design with Sass'
 	},
 	{
 		id: 9,
@@ -134,9 +134,16 @@ GAME.data = [ // id | name | website | twitter | topic
 	},
 	{
 		id: 20,
-		name: 'Hannah Donovan',
-		website: 'hannahdonovan.com',
-		twitter: 'han',
-		topic: ''
+		name: 'John Schulz',
+		website: 'JFSIII.org',
+		twitter: 'JFSIII',
+		topic: 'When to Node?'
+	},
+	{
+		id: 21,
+		name: 'Luca Sale',
+		website: 'blackberry.com',
+		twitter: 'blackberryluca',
+		topic: 'Alice.js: A Lightweight Independent CSS Engine'
 	}
 ];

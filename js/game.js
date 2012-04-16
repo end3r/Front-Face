@@ -7,7 +7,7 @@ GAME.Init = function() {
 	GAME.$id('start').onclick = function() { if(!GAME._active) GAME.Start(); };
 	GAME.$id('howto').onclick = function() { GAME.Page('howto'); };
 	GAME.$id('about').onclick = function() { GAME.Page('about'); };
-	GAME.$id('threedee').onclick = function() { GAME.ThreeD(); };
+	//GAME.$id('threedee').onclick = function() { GAME.ThreeD(); };
 	GAME.$id('geo').onclick = function() { GAME.API.geolocation(); };
 	GAME.$id('ticket').onclick = function() {
 		GAME.$showModal(GAME.$txt.winticket+GAME.$txt.close,'winticket');
