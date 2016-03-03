@@ -96,13 +96,13 @@ GAME.HideCards = function() {
 		myItem1 = GAME.$id('card_'+item1.card_id),
 		myItem2 = GAME.$id('card_'+item2.card_id);
 	myItem1.className = '';
-	myItem1.style.backgroundPosition = '';
 	myItem2.className = '';
-	myItem2.style.backgroundPosition = '';
 	GAME._active = true;
 	if(GAME.$id('front_'+item1.card_id)) {
-		GAME.$id('front_'+item1.card_id).style.zIndex = '1';
-		GAME.$id('front_'+item2.card_id).style.zIndex = '1';
+	    GAME.$id('front_'+item1.card_id).style.backgroundPosition = '0px 0px';
+	    GAME.$id('front_'+item2.card_id).style.backgroundPosition = '0px 0px';
+		GAME.$id('front_'+item1.card_id).style.zIndex = '-1';
+		GAME.$id('front_'+item2.card_id).style.zIndex = '-1';
 	}
 	myItem1.onclick = function() { GAME.CardClick(this); };
 	myItem2.onclick = function() { GAME.CardClick(this); };
